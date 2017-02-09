@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RandomCensures
 {
-    public class Class1
+    class Connector
     {
     }
 }
