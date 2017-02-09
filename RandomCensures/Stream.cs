@@ -32,16 +32,11 @@ namespace RandomCensures
             }
         }
         
-        public Stream (Stream str)
+        public Stream ()
         {
-            this.reader = str.reader;
-            this.writer = str.writer;
-        }
-
-        public Stream (StreamReader reader, StreamWriter writer)
-        {
-            this.reader = reader;
-            this.writer = writer;
+            TcpClient tcpClient = new TcpClient("irc.twitch.tv", 6667);
+            this.reader = new StreamReader(tcpClient.GetStream());
+            this.writer = new StreamWriter(tcpClient.GetStream());
         }
     }
 }
