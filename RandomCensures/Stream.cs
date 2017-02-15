@@ -92,6 +92,18 @@ namespace RandomCensures
             }
         }
 
+        public TcpClient tcpClient
+        {
+            get
+            {
+                return this.tcpClient;
+            }
+            private set
+            {
+                this.tcpClient = value;
+            }
+        }
+
         public Stream (string uName, string oAuth )
         {
             this.userName = uName.ToLower();
@@ -102,9 +114,9 @@ namespace RandomCensures
 
         }
 
-        private void Reconnect()
+        public void Reconnect()
         {
-            TcpClient tcpClient = new TcpClient("irc.twitch.tv", 6667);
+            this.tcpClient = new TcpClient("irc.twitch.tv", 6667);
             this.reader = new StreamReader(tcpClient.GetStream());
             this.writer = new StreamWriter(tcpClient.GetStream());
 
@@ -116,6 +128,27 @@ namespace RandomCensures
                 );
             writer.WriteLine("CAP REQ :twitch.tv/membership");
             writer.WriteLine("JOIN #" + channelName);
+        }
+
+        public void update (object sender, EventArgs e)
+        {
+            if (!tcpClient.Connected)
+            {
+                Reconnect();
+            }
+
+            TrySendingMessages();
+            TryReceiveMessages();
+        }
+
+        private void TryReceiveMessages()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void TrySendingMessages()
+        {
+            throw new NotImplementedException();
         }
     }
 }
