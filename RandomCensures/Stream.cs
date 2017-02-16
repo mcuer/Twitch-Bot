@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace RandomCensures
 {
-    public class Stream
+    public class Stream : IDisposable
     {
         private StreamReader reader { get; set; }
 
@@ -52,7 +52,8 @@ namespace RandomCensures
                     + "NICK " + userName + Environment.NewLine
                     + "USER " + userName + " 8 * :" + userName
                 );
-            //writer.WriteLine("CAP REQ :twitch.tv/membership");
+            writer.WriteLine("CAP REQ :twitch.tv/membership");
+            writer.WriteLine("CAP REQ :twitch.tv/commands");
             writer.WriteLine("JOIN #" + channelName);
             this.lastMessage = DateTime.Now;
         }
@@ -75,7 +76,8 @@ namespace RandomCensures
                 if (sendMessageQueue.Count > 0)
                 {
                     var message = sendMessageQueue.Dequeue();
-                    writer.WriteLine($"{chatMessagePrefix}{message}");
+                    Console.WriteLine(message);
+                    writer.WriteLine($"{message}");
                     lastMessage = DateTime.Now;
                 }
             }
@@ -105,29 +107,47 @@ namespace RandomCensures
             }
         }
 
-        private string ReceiveMessage (string speaker, string message)
+        private void ReceiveMessage (string speaker, string message)
         {
-            string retour = $"\r\n{speaker}: {message}";
             //String.Compare("", "", true, CultureInfo);
             if (message.StartsWith("!hi"))
             {
-                SendMessage($"hello, {speaker}");
+                SendMessage("!hi",$"hello, {speaker}");
             }
             if (message.StartsWith("!commande"))
             {
-                SendMessage($"les commandes sont : ");
+                SendMessage("!commande",$"les commandes sont : ");
             }
             if (message.Contains("http://"))
             {
                 
-                SendMessage($"");
+                SendMessage("http",speaker);
             }
-            return retour;
         }
 
-        private void SendMessage(string message)
+        public void SendMessage(string command,string message)
         {
-            sendMessageQueue.Enqueue(message);
+            switch (command)
+            {
+                case "!hi":
+                    sendMessageQueue.Enqueue(chatMessagePrefix + message);
+                    break;
+                case "!commande":
+                    sendMessageQueue.Enqueue(chatMessagePrefix + message);
+                    break;
+                case "http":
+                    sendMessageQueue.Enqueue($"@ban-duration=100;ban-reason=BWAHH :tmi.twitch.tv CLEARCHAT #{channelName} :{message}");
+                    break;
+                case "timerMessage":
+                    sendMessageQueue.Enqueue(chatMessagePrefix + message);
+                    break;
+            }
+        }
+
+        public void Dispose()
+        {
+            writer.Close();
+            reader.Close();
         }
     }
 }
