@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.IO;
 using System.Globalization;
+using System.Net;
 
 namespace RandomCensures
 {
@@ -53,8 +54,11 @@ namespace RandomCensures
                     + "USER " + userName + " 8 * :" + userName
                 );
             writer.WriteLine("CAP REQ :twitch.tv/membership");
+            //writer.WriteLine("CAP REQ :twitch.tv/tags");
             writer.WriteLine("CAP REQ :twitch.tv/commands");
             writer.WriteLine("JOIN #" + channelName);
+            //writer.WriteLine(":jtv MODE #<channel> +o <user>");
+            
             this.lastMessage = DateTime.Now;
         }
 
@@ -88,6 +92,7 @@ namespace RandomCensures
             if (tcpClient.Available > 0 || reader.Peek() >= 0)
             {
                 var message = reader.ReadLine();
+                Console.WriteLine(message);
                 var iCollon = message.IndexOf(":",1);
                 if (iCollon > 0)
                 {
@@ -136,7 +141,7 @@ namespace RandomCensures
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
                 case "http":
-                    sendMessageQueue.Enqueue($"@ban-duration=100;ban-reason=BWAHH :tmi.twitch.tv CLEARCHAT #{channelName} :{message}");
+                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10");
                     break;
                 case "timerMessage":
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
