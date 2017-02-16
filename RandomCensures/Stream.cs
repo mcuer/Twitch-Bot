@@ -141,7 +141,7 @@ namespace RandomCensures
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
                 case "http":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10");
+                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 900");
                     break;
                 case "timerMessage":
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
