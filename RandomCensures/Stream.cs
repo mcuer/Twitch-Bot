@@ -83,6 +83,12 @@ namespace RandomCensures
                     Console.WriteLine(message);
                     writer.WriteLine($"{message}");
                     lastMessage = DateTime.Now;
+                    if (message.Split(':')[0].Contains("CLEARCHAT"))
+                    {
+                        message = sendMessageQueue.Dequeue();
+                        Console.WriteLine(message);
+                        writer.WriteLine($"{message}");
+                    }
                 }
             }
         }
@@ -126,7 +132,7 @@ namespace RandomCensures
             if (message.Contains("http://"))
             {
                 
-                SendMessage("http",speaker);
+                SendMessage("timeout",speaker);
             }
         }
 
@@ -140,8 +146,9 @@ namespace RandomCensures
                 case "!commande":
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
-                case "http":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 900");
+                case "timeout":
+                    sendMessageQueue.Enqueue(chatMessagePrefix + message);
+                    sendMessageQueue.Enqueue(chatMessagePrefix + message + " vous n'avez pas respecté les régles (Ban de 15 minutes!)");
                     break;
                 case "timerMessage":
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
