@@ -113,6 +113,15 @@ namespace RandomCensures
             {
                 SendMessage($"hello, {speaker}");
             }
+            if (message.StartsWith("!commande"))
+            {
+                SendMessage($"les commandes sont : ");
+            }
+            if (message.Contains("http://"))
+            {
+                
+                SendMessage($"");
+            }
             return retour;
         }
 
