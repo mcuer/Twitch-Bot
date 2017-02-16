@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.LbMotBanni = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@
             this.TbNbMess = new System.Windows.Forms.TextBox();
             this.Bplus = new System.Windows.Forms.Button();
             this.LbFrequence = new System.Windows.Forms.ListBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -145,6 +147,11 @@
             this.LbFrequence.Size = new System.Drawing.Size(69, 160);
             this.LbFrequence.TabIndex = 11;
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -183,6 +190,7 @@
         private System.Windows.Forms.TextBox TbNbMess;
         private System.Windows.Forms.Button Bplus;
         private System.Windows.Forms.ListBox LbFrequence;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

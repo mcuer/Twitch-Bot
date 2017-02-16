@@ -2,138 +2,41 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.IO;
-
+using System.Globalization;
 
 namespace RandomCensures
 {
     public class Stream
     {
-        private StreamReader reader
-        {
-            get
-            {
-                return this.reader;
-            }
-            set
-            {
-                this.reader = value;
-            }
-        }
+        private StreamReader reader { get; set; }
 
-        private StreamWriter writer
-        {
-            get
-            {
-                return this.writer;
-            }
-            set
-            {
-                this.writer = value;
-            }
-        }
+        private StreamWriter writer { get; set; }
 
-        private string oAuth
-        {
-            get
-            {
-                return this.oAuth;
-            }
-            set
-            {
-                this.oAuth = value;
-            }
-        }
+        private string oAuth { get; set; }
 
-        private string chatMessagePrefix
-        {
-            get
-            {
-                return this.chatMessagePrefix;
-            }
-            set
-            {
-                this.chatMessagePrefix = value;
-            }
-        }
+        private string chatMessagePrefix { get; set; }
 
-        private string chatCommandId
-        {
-            get
-            {
-                return this.chatCommandId;
-            }
-            set
-            {
-                this.chatCommandId = value;
-            }
-        }
+        private string chatCommandId { get; set; }
 
-        private string userName
-        {
-            get
-            {
-                return this.userName;
-            }
-            set
-            {
-                this.userName = value;
-            }
-        }
+        private string userName { get; set; }
 
-        private string channelName
-        {
-            get
-            {
-                return this.channelName;
-            }
-            set
-            {
-                this.channelName = value;
-            }
-        }
+        private string channelName { get; set; }
 
-        private TcpClient tcpClient
-        {
-            get
-            {
-                return this.tcpClient;
-            }
-            set
-            {
-                this.tcpClient = value;
-            }
-        }
+        private TcpClient tcpClient { get; set; }
 
-        private DateTime lastMessage
-        {
-            get
-            {
-                return this.lastMessage;
-            }
-            set
-            {
-                this.lastMessage = value;
-            }
-        }
-        private Queue<string> sendMessageQueue
-        {
-            get
-            {
-                return this.sendMessageQueue;
-            }
-            set
-            {
-                this.sendMessageQueue = value;
-            }
-        }
+        private DateTime lastMessage { get; set; }
+
+        private Queue<string> sendMessageQueue { get;set; }
 
         public Stream (string uName, string oAuth )
         {
+            this.tcpClient = new TcpClient();
+            sendMessageQueue = new Queue<string>();
             this.userName = uName.ToLower();
             this.channelName = this.userName;
             this.oAuth = oAuth;
             this.chatCommandId = "PRIVMSG";
-            this.chatMessagePrefix = $":{userName}!{userName}@{userName}.tmi.twitch.tv {chatCommandId} #{channelName}";
+            this.chatMessagePrefix = $":{userName}!{userName}@{userName}.tmi.twitch.tv {chatCommandId} #{channelName} :";
 
         }
 
@@ -149,7 +52,7 @@ namespace RandomCensures
                     + "NICK " + userName + Environment.NewLine
                     + "USER " + userName + " 8 * :" + userName
                 );
-            writer.WriteLine("CAP REQ :twitch.tv/membership");
+            //writer.WriteLine("CAP REQ :twitch.tv/membership");
             writer.WriteLine("JOIN #" + channelName);
             this.lastMessage = DateTime.Now;
         }
@@ -205,6 +108,7 @@ namespace RandomCensures
         private string ReceiveMessage (string speaker, string message)
         {
             string retour = $"\r\n{speaker}: {message}";
+            //String.Compare("", "", true, CultureInfo);
             if (message.StartsWith("!hi"))
             {
                 SendMessage($"hello, {speaker}");
