@@ -147,7 +147,7 @@ namespace RandomCensures
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
                 case "timeout":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + message);
+                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout" + message + " 10");
                     sendMessageQueue.Enqueue(chatMessagePrefix + message + " vous n'avez pas respecté les régles (Ban de 15 minutes!)");
                     break;
                 case "timerMessage":
