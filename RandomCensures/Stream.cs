@@ -8,99 +8,122 @@ namespace RandomCensures
 {
     public class Stream
     {
-        public StreamReader reader
+        private StreamReader reader
         {
             get
             {
                 return this.reader;
             }
-            private set
+            set
             {
                 this.reader = value;
             }
         }
-            
-        public StreamWriter writer
+
+        private StreamWriter writer
         {
             get
             {
                 return this.writer;
             }
-            private set
+            set
             {
                 this.writer = value;
             }
         }
 
-        public string oAuth
+        private string oAuth
         {
             get
             {
                 return this.oAuth;
             }
-            private set
+            set
             {
                 this.oAuth = value;
             }
         }
 
-        public string chatMessagePrefix
+        private string chatMessagePrefix
         {
             get
             {
                 return this.chatMessagePrefix;
             }
-            private set
+            set
             {
                 this.chatMessagePrefix = value;
             }
         }
 
-        public string chatCommandId
+        private string chatCommandId
         {
             get
             {
                 return this.chatCommandId;
             }
-            private set
+            set
             {
                 this.chatCommandId = value;
             }
         }
 
-        public string userName
+        private string userName
         {
             get
             {
                 return this.userName;
             }
-            private set
+            set
             {
                 this.userName = value;
             }
         }
 
-        public string channelName
+        private string channelName
         {
             get
             {
                 return this.channelName;
             }
-            private set
+            set
             {
                 this.channelName = value;
             }
         }
 
-        public TcpClient tcpClient
+        private TcpClient tcpClient
         {
             get
             {
                 return this.tcpClient;
             }
-            private set
+            set
             {
                 this.tcpClient = value;
+            }
+        }
+
+        private DateTime lastMessage
+        {
+            get
+            {
+                return this.lastMessage;
+            }
+            set
+            {
+                this.lastMessage = value;
+            }
+        }
+        private Queue<string> sendMessageQueue
+        {
+            get
+            {
+                return this.sendMessageQueue;
+            }
+            set
+            {
+                this.sendMessageQueue = value;
             }
         }
 
@@ -128,6 +151,7 @@ namespace RandomCensures
                 );
             writer.WriteLine("CAP REQ :twitch.tv/membership");
             writer.WriteLine("JOIN #" + channelName);
+            this.lastMessage = DateTime.Now;
         }
 
         public void update (object sender, EventArgs e)
@@ -141,14 +165,56 @@ namespace RandomCensures
             TryReceiveMessages();
         }
 
-        private void TryReceiveMessages()
-        {
-            throw new NotImplementedException();
-        }
-
         private void TrySendingMessages()
         {
-            throw new NotImplementedException();
+            if (DateTime.Now - lastMessage > TimeSpan.FromSeconds(3))
+            {
+                if (sendMessageQueue.Count > 0)
+                {
+                    var message = sendMessageQueue.Dequeue();
+                    writer.WriteLine($"{chatMessagePrefix}{message}");
+                    lastMessage = DateTime.Now;
+                }
+            }
+        }
+
+        private void TryReceiveMessages()
+        {
+            if (tcpClient.Available > 0 || reader.Peek() >= 0)
+            {
+                var message = reader.ReadLine();
+                var iCollon = message.IndexOf(":",1);
+                if (iCollon > 0)
+                {
+                    var command = message.Substring(1, iCollon);
+                    if (command.Contains(chatCommandId))
+                    {
+                        var iBang = command.IndexOf("!");
+                        if (iBang > 0)
+                        {
+                            var speaker = command.Substring(0, iBang);
+                            var chatMessage = message.Substring(iCollon + 1);
+
+                            ReceiveMessage(speaker, chatMessage);
+                        }
+                    }
+                }
+            }
+        }
+
+        private string ReceiveMessage (string speaker, string message)
+        {
+            string retour = $"\r\n{speaker}: {message}";
+            if (message.StartsWith("!hi"))
+            {
+                SendMessage($"hello, {speaker}");
+            }
+            return retour;
+        }
+
+        private void SendMessage(string message)
+        {
+            sendMessageQueue.Enqueue(message);
         }
     }
 }
