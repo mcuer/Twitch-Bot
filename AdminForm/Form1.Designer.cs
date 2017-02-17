@@ -96,6 +96,7 @@
             this.CbUniqAbo.Size = new System.Drawing.Size(15, 14);
             this.CbUniqAbo.TabIndex = 5;
             this.CbUniqAbo.UseVisualStyleBackColor = true;
+            this.CbUniqAbo.CheckedChanged += new System.EventHandler(this.CbUniqAbo_CheckedChanged);
             // 
             // label4
             // 
@@ -155,7 +156,8 @@
             // 
             // timer2
             // 
-            this.timer2.Interval = 5000;
+            this.timer2.Enabled = true;
+            this.timer2.Interval = 100000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // Form1

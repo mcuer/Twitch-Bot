@@ -29,6 +29,8 @@ namespace RandomCensures
 
         private Queue<string> sendMessageQueue { get;set; }
 
+        public Boolean Member { get; set; }
+
         public Stream (string uName, string oAuth )
         {
             this.tcpClient = new TcpClient();
@@ -58,6 +60,16 @@ namespace RandomCensures
             writer.WriteLine("CAP REQ :twitch.tv/commands");
             writer.WriteLine("JOIN #" + channelName);
             //writer.WriteLine(":jtv MODE #<channel> +o <user>");
+
+            if ( Member == true)
+            {
+                sendMessageQueue.Enqueue(chatMessagePrefix + "/followers " + "le chat est accessible que pour les abonnées");
+                sendMessageQueue.Enqueue(chatMessagePrefix + "le chat est accessible que pour les abonnées");
+            }
+            else
+            {
+                sendMessageQueue.Enqueue(chatMessagePrefix + "/followersoff ");
+            }
             
             this.lastMessage = DateTime.Now;
         }
@@ -129,7 +141,7 @@ namespace RandomCensures
             {
                 SendMessage("!commande",$"les commandes sont : ");
             }
-            if (message.Contains("http://"))
+            if (message.Contains("http"))
             {
                 
                 SendMessage("timeout",speaker);
@@ -147,7 +159,7 @@ namespace RandomCensures
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
                 case "timeout":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout" + message + " 10");
+                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10");
                     sendMessageQueue.Enqueue(chatMessagePrefix + message + " vous n'avez pas respecté les régles (Ban de 15 minutes!)");
                     break;
                 case "timerMessage":
@@ -155,7 +167,6 @@ namespace RandomCensures
                     break;
             }
         }
-
         public void Dispose()
         {
             writer.Close();
