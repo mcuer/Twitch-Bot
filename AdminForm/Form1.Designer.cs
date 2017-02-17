@@ -45,11 +45,12 @@ namespace AdminForm
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.LbFrequence = new System.Windows.Forms.ListBox();
             this.LbMessagePeriodique = new System.Windows.Forms.ListBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.uNameTB = new System.Windows.Forms.TextBox();
+            this.oAuthTB = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.connexionBT = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -171,19 +172,19 @@ namespace AdminForm
             this.LbMessagePeriodique.Size = new System.Drawing.Size(184, 160);
             this.LbMessagePeriodique.TabIndex = 3;
             // 
-            // textBox1
+            // uNameTB
             // 
-            this.textBox1.Location = new System.Drawing.Point(15, 34);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(147, 20);
-            this.textBox1.TabIndex = 12;
+            this.uNameTB.Location = new System.Drawing.Point(15, 34);
+            this.uNameTB.Name = "uNameTB";
+            this.uNameTB.Size = new System.Drawing.Size(147, 20);
+            this.uNameTB.TabIndex = 12;
             // 
-            // textBox2
+            // oAuthTB
             // 
-            this.textBox2.Location = new System.Drawing.Point(168, 34);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(147, 20);
-            this.textBox2.TabIndex = 13;
+            this.oAuthTB.Location = new System.Drawing.Point(168, 34);
+            this.oAuthTB.Name = "oAuthTB";
+            this.oAuthTB.Size = new System.Drawing.Size(147, 20);
+            this.oAuthTB.TabIndex = 13;
             // 
             // label6
             // 
@@ -199,9 +200,9 @@ namespace AdminForm
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(165, 13);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 13);
+            this.label7.Size = new System.Drawing.Size(41, 13);
             this.label7.TabIndex = 15;
-            this.label7.Text = "Password :";
+            this.label7.Text = "oAuth :";
             // 
             // linkLabel1
             // 
@@ -212,17 +213,30 @@ namespace AdminForm
             this.linkLabel1.TabIndex = 16;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Générer son oAuth ici!";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // connexionBT
+            // 
+            this.connexionBT.Location = new System.Drawing.Point(341, 23);
+            this.connexionBT.Name = "connexionBT";
+            this.connexionBT.Size = new System.Drawing.Size(104, 37);
+            this.connexionBT.TabIndex = 17;
+            this.connexionBT.Text = "Connexion";
+            this.connexionBT.UseVisualStyleBackColor = true;
+            this.connexionBT.Click += new System.EventHandler(this.button1_Click);
+            this.connexionBT.MouseClick += new System.Windows.Forms.MouseEventHandler(this.connexionBT_MouseClick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(586, 331);
+            this.Controls.Add(this.connexionBT);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.oAuthTB);
+            this.Controls.Add(this.uNameTB);
             this.Controls.Add(this.LbFrequence);
             this.Controls.Add(this.Bplus);
             this.Controls.Add(this.TbNbMess);
@@ -258,11 +272,12 @@ namespace AdminForm
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.ListBox LbFrequence;
         private System.Windows.Forms.ListBox LbMessagePeriodique;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox uNameTB;
+        private System.Windows.Forms.TextBox oAuthTB;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Button connexionBT;
     }
 }
 

@@ -37,17 +37,21 @@ namespace RandomCensures
 
         private List<MessageUtilisateur> lMessageUtilisateur { get; set; }
 
-        public Stream (string uName, string oAuth )
+        public Stream()
         {
             lMessageUtilisateur = new List<MessageUtilisateur>();
             this.tcpClient = new TcpClient();
             sendMessageQueue = new Queue<string>();
+            this.chatCommandId = "PRIVMSG";
+        }
+
+        public void Init (string uName, string oAuth )
+        {
             this.userName = uName.ToLower();
             this.channelName = this.userName;
             this.oAuth = oAuth;
-            this.chatCommandId = "PRIVMSG";
             this.chatMessagePrefix = $":{userName}!{userName}@{userName}.tmi.twitch.tv {chatCommandId} #{channelName} :";
-
+            Reconnect();
         }
 
         public void Reconnect()

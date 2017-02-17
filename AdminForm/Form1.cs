@@ -8,18 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RandomCensures;
+using System.Diagnostics;
 
 namespace AdminForm
 {
     public partial class Form1 : Form
     {
+        private bool connexion = false;
         private Stream str;
         public Form1()
         {
             InitializeComponent();
-            str = new Stream("randomcensures", "oauth:gpbf3w9ou1afc08fx3wd3f4by6urei");
-            //str = new Stream("Lolmarie69", "oauth:hx1am6hufq5yxhoeqbjaf9jqrix2rx");
+            str = new Stream();
         }
+        
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -50,6 +52,32 @@ namespace AdminForm
                 floodLimit = 5;
             }
             str.setAntiflood(CbAntiFlood.Checked, floodLimit);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://twitchapps.com/tmi");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void connexionBT_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            if (!connexion)
+            {
+                str.Init(uNameTB.Text, oAuthTB.Text);
+                connexion = true;
+                connexionBT.Text = "Déconnexion";
+            }
+            else
+            {
+                str.Dispose();
+                connexion = false;
+                connexionBT.Text = "Connexion";
+            }
         }
     }
 }
