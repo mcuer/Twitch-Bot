@@ -54,12 +54,17 @@ namespace RandomCensures
             Reconnect();
         }
 
+        public void Disconnect()
+        {
+            this.tcpClient.Close();
+            Dispose();
+        }
+
         public void Reconnect()
         {
             this.tcpClient = new TcpClient("irc.twitch.tv", 6667);
             this.reader = new StreamReader(tcpClient.GetStream());
             this.writer = new StreamWriter(tcpClient.GetStream());
-
             writer.AutoFlush = true;
             writer.WriteLine(
                     "PASS " + oAuth + Environment.NewLine
