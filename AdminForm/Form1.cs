@@ -65,7 +65,6 @@ namespace AdminForm
 
         private void connexionBT_MouseClick(object sender, MouseEventArgs e)
         {
-
             if (!connexion)
             {
                 str.Init(uNameTB.Text, oAuthTB.Text);
@@ -74,7 +73,7 @@ namespace AdminForm
             }
             else
             {
-                str.Dispose();
+                str.Disconnect();
                 connexion = false;
                 connexionBT.Text = "Connexion";
             }
