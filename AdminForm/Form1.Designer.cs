@@ -69,6 +69,7 @@ namespace AdminForm
             this.LbMotBanni.Name = "LbMotBanni";
             this.LbMotBanni.Size = new System.Drawing.Size(234, 160);
             this.LbMotBanni.TabIndex = 1;
+            this.LbMotBanni.SelectedIndexChanged += new System.EventHandler(this.LbMotBanni_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -251,6 +252,7 @@ namespace AdminForm
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
