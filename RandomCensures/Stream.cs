@@ -83,7 +83,7 @@ namespace RandomCensures
                     Console.WriteLine(message);
                     writer.WriteLine($"{message}");
                     lastMessage = DateTime.Now;
-                    if (message.Split(':')[0].Contains("CLEARCHAT"))
+                    if (message.Split('@')[0].Contains(userName) && message.Split(':')[1].Contains("/timeout"))
                     {
                         message = sendMessageQueue.Dequeue();
                         Console.WriteLine(message);
@@ -121,18 +121,30 @@ namespace RandomCensures
         private void ReceiveMessage (string speaker, string message)
         {
             //String.Compare("", "", true, CultureInfo);
+            string sMot = File.ReadAllText("./Insultes.txt");
+            string[] mots = sMot.Split(',');
+            if (message.Contains("http://"))
+            {
+                SendMessage("timeout", speaker);
+                return;
+            }
+            foreach (string mot in mots)
+            {
+                if (message.ToLower().Contains(mot.ToLower()))
+                {
+                    SendMessage("timeout", speaker);
+                    return;
+                }
+            }
             if (message.StartsWith("!hi"))
             {
                 SendMessage("!hi",$"hello, {speaker}");
+                return;
             }
             if (message.StartsWith("!commande"))
             {
                 SendMessage("!commande",$"les commandes sont : ");
-            }
-            if (message.Contains("http://"))
-            {
-                
-                SendMessage("timeout",speaker);
+                return;
             }
         }
 
@@ -147,7 +159,7 @@ namespace RandomCensures
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
                 case "timeout":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout" + message + " 10");
+                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10");
                     sendMessageQueue.Enqueue(chatMessagePrefix + message + " vous n'avez pas respecté les régles (Ban de 15 minutes!)");
                     break;
                 case "timerMessage":
