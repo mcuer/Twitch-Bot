@@ -17,8 +17,8 @@ namespace AdminForm
         public Form1()
         {
             InitializeComponent();
-            //str = new Stream("randomcensures", "oauth:gpbf3w9ou1afc08fx3wd3f4by6urei");
-            str = new Stream("Lolmarie69", "oauth:hx1am6hufq5yxhoeqbjaf9jqrix2rx");
+            str = new Stream("randomcensures", "oauth:gpbf3w9ou1afc08fx3wd3f4by6urei");
+            //str = new Stream("Lolmarie69", "oauth:hx1am6hufq5yxhoeqbjaf9jqrix2rx");
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -33,9 +33,23 @@ namespace AdminForm
 
         private void CbUniqAbo_CheckedChanged(object sender, EventArgs e)
         {
-            str.Member = true;
-            str.Reconnect();
+            str.member = CbUniqAbo.Checked;
+            str.MemberOnly();
 
+        }
+
+        private void CbAntiFlood_CheckedChanged(object sender, EventArgs e)
+        {
+            int floodLimit;
+            try
+            {
+                floodLimit = Int32.Parse(TbNbMess.Text);
+            }
+            catch (Exception)
+            {
+                floodLimit = 5;
+            }
+            str.setAntiflood(CbAntiFlood.Checked, floodLimit);
         }
     }
 }

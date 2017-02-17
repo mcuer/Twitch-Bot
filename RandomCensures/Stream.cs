@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Globalization;
 using System.Net;
+using System.Linq;
 
 namespace RandomCensures
 {
@@ -29,10 +30,16 @@ namespace RandomCensures
 
         private Queue<string> sendMessageQueue { get;set; }
 
-        public Boolean Member { get; set; }
+        public bool member { get; set; }
+
+        public bool antiFlood { get; set; }
+        public int floodLimit { get; set; }
+
+        private List<MessageUtilisateur> lMessageUtilisateur { get; set; }
 
         public Stream (string uName, string oAuth )
         {
+            lMessageUtilisateur = new List<MessageUtilisateur>();
             this.tcpClient = new TcpClient();
             sendMessageQueue = new Queue<string>();
             this.userName = uName.ToLower();
@@ -61,17 +68,21 @@ namespace RandomCensures
             writer.WriteLine("JOIN #" + channelName);
             //writer.WriteLine(":jtv MODE #<channel> +o <user>");
 
-            if ( Member == true)
+            this.lastMessage = DateTime.Now;
+        }
+
+        public void MemberOnly()
+        {
+            if (member == true)
             {
-                sendMessageQueue.Enqueue(chatMessagePrefix + "/followers " + "le chat est accessible que pour les abonnées");
-                sendMessageQueue.Enqueue(chatMessagePrefix + "le chat est accessible que pour les abonnées");
+                sendMessageQueue.Enqueue(chatMessagePrefix + "/followers ");
+                sendMessageQueue.Enqueue(chatMessagePrefix + "Le chat est maintenant uniquement accessible aux abonnées!");
             }
             else
             {
                 sendMessageQueue.Enqueue(chatMessagePrefix + "/followersoff ");
+                sendMessageQueue.Enqueue(chatMessagePrefix + "Le chat est maintenant de nouveau accessible a tous!");
             }
-            
-            this.lastMessage = DateTime.Now;
         }
 
         public void update (object sender, EventArgs e)
@@ -87,7 +98,7 @@ namespace RandomCensures
 
         private void TrySendingMessages()
         {
-            if (DateTime.Now - lastMessage > TimeSpan.FromSeconds(3))
+            if (DateTime.Now - lastMessage > TimeSpan.FromSeconds(5))
             {
                 if (sendMessageQueue.Count > 0)
                 {
@@ -95,11 +106,26 @@ namespace RandomCensures
                     Console.WriteLine(message);
                     writer.WriteLine($"{message}");
                     lastMessage = DateTime.Now;
-                    if (message.Split(':')[0].Contains("CLEARCHAT"))
+                    if (message.Split('@')[0].Contains(userName) && message.Split(':')[2].Contains("/followers"))
                     {
                         message = sendMessageQueue.Dequeue();
                         Console.WriteLine(message);
                         writer.WriteLine($"{message}");
+                        return;
+                    }
+                    if (message.Split('@')[0].Contains(userName) && message.Split(':')[2].Contains("/timeout"))
+                    {
+                        message = sendMessageQueue.Dequeue();
+                        Console.WriteLine(message);
+                        writer.WriteLine($"{message}");
+                        return;
+                    }
+                    if (message.Split('@')[0].Contains(userName) && message.Split(':')[2].Contains("/followersoff"))
+                    {
+                        message = sendMessageQueue.Dequeue();
+                        Console.WriteLine(message);
+                        writer.WriteLine($"{message}");
+                        return;
                     }
                 }
             }
@@ -133,18 +159,56 @@ namespace RandomCensures
         private void ReceiveMessage (string speaker, string message)
         {
             //String.Compare("", "", true, CultureInfo);
-            if (message.StartsWith("!hi"))
+            string sMot = File.ReadAllText("Insultes.txt");
+            string[] mots = sMot.Split(',');
+            bool found = false;
+            if (speaker != userName)
             {
-                SendMessage("!hi",$"hello, {speaker}");
-            }
-            if (message.StartsWith("!commande"))
-            {
-                SendMessage("!commande",$"les commandes sont : ");
-            }
-            if (message.Contains("http"))
-            {
-                
-                SendMessage("timeout",speaker);
+                for (int i = 0; i < lMessageUtilisateur.Count; i++)
+                {
+                    if (lMessageUtilisateur.ElementAt(i).speaker == speaker)
+                    {
+                        lMessageUtilisateur.ElementAt(i).nbMessage++;
+                        found = true;
+                        if (DateTime.Now - lMessageUtilisateur.ElementAt(i).datePremierMessage >= TimeSpan.FromSeconds(10))
+                        {
+                            lMessageUtilisateur.ElementAt(i).datePremierMessage = DateTime.Now;
+                        }
+                        else
+                        if (DateTime.Now - lMessageUtilisateur.ElementAt(i).datePremierMessage < TimeSpan.FromSeconds(10) && antiFlood && lMessageUtilisateur.ElementAt(i).nbMessage > floodLimit)
+                        {
+                            SendMessage("flood", speaker);
+                            return;
+                        }
+                    }
+                }
+                if (!found)
+                {
+                    lMessageUtilisateur.Add(new MessageUtilisateur(speaker, 1, DateTime.Now));
+                }
+                foreach (string mot in mots)
+                {
+                    if (message.ToLower().Contains(mot.ToLower()))
+                    {
+                        SendMessage("timeout", speaker);
+                        return;
+                    }
+                }
+                if (message.Contains("http"))
+                {
+                    SendMessage("timeout", speaker);
+                    return;
+                }
+                if (message.StartsWith("!hi"))
+                {
+                    SendMessage("!hi", $"hello, {speaker}");
+                    return;
+                }
+                if (message.StartsWith("!commande"))
+                {
+                    SendMessage("!commande", $"les commandes sont : ");
+                    return;
+                }
             }
         }
 
@@ -159,11 +223,15 @@ namespace RandomCensures
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
                 case "timeout":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10");
+                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10"); // A mettre à 15 minutes
                     sendMessageQueue.Enqueue(chatMessagePrefix + message + " vous n'avez pas respecté les régles (Ban de 15 minutes!)");
                     break;
                 case "timerMessage":
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
+                    break;
+                case "flood":
+                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10"); //A mettre à 1 minute!
+                    sendMessageQueue.Enqueue(chatMessagePrefix + message + " Pas de flood!");
                     break;
             }
         }
@@ -171,6 +239,12 @@ namespace RandomCensures
         {
             writer.Close();
             reader.Close();
+        }
+
+        public void setAntiflood(bool antiFlood, int floodLimit)
+        {
+            this.antiFlood = antiFlood;
+            this.floodLimit = floodLimit;
         }
     }
 }
