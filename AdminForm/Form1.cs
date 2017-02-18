@@ -102,6 +102,12 @@ namespace AdminForm
             {
                 LbMotBanni.Items.Add(mot + "\n");
             }
+            LbMotBanni.Refresh();
+        }
+
+        private void AjoutMot_Click(object sender, EventArgs e)
+        {
+            str.setAjoutMot(tbNomMot.Text);
         }
     }
 }
