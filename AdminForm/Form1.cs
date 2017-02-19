@@ -104,10 +104,10 @@ namespace AdminForm
             }
             LbMotBanni.Refresh();
         }
-
+        /*
         private void AjoutMot_Click(object sender, EventArgs e)
         {
             str.setAjoutMot(tbNomMot.Text);
-        }
+        }*/
     }
 }

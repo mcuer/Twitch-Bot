@@ -36,7 +36,7 @@ namespace RandomCensures
         public bool antiFlood { get; set; }
         public int floodLimit { get; set; }
 
-        public string motAJouter { get; set; }
+       /* public string motAJouter { get; set; }*/
 
         private List<MessageUtilisateur> lMessageUtilisateur { get; set; }
 
@@ -171,7 +171,7 @@ namespace RandomCensures
         private void ReceiveMessage (string speaker, string message)
         {
             //String.Compare("", "", true, CultureInfo);
-            File.WriteAllText("Insultes.txt", motAJouter);
+            /*File.WriteAllText("Insultes.txt", motAJouter);*/
             string sMot = File.ReadAllText("Insultes.txt");
             string[] mots = sMot.Split(',');
             bool found = false;
@@ -259,10 +259,10 @@ namespace RandomCensures
             this.antiFlood = antiFlood;
             this.floodLimit = floodLimit;
         }
-        public void setAjoutMot(string motAJouter)
+        /*public void setAjoutMot(string motAJouter)
         {
             this.motAJouter = motAJouter;
 
-        }
+        }*/
     }
 }
