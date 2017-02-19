@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace AdminForm
 {
-    public partial class FormAjoutcs : Form
+    public partial class FormAjout : Form
     {
         Form1 Origin;
         bool inList;
-        bool affiche;
-        public FormAjoutcs(Form1 origin)
+        public bool affiche;
+        public FormAjout(Form1 origin)
         {
             this.Origin = origin;
             affiche = true;
@@ -32,21 +32,31 @@ namespace AdminForm
             foreach (string motAAjouter in ajoutMot)
             {
                 trimedWord = motAAjouter.TrimStart(' ').TrimEnd(' ');
+                inList = false;
                 mots = sMot.Split(',');
                 inList = false;
                 foreach (string mot in mots)
                 {
                     if (trimedWord.Equals(mot))
                     {
-                        inList = false;
+                        inList = true;
                     }
                 }
-                if (inList)
+                if (!inList)
                 {
                     sMot += "," + trimedWord;
                 }
             }
+            File.WriteAllText("Insultes.txt", sMot);
             affiche = false;
+            Origin.MotBanniUpdate();
+            this.Dispose();
+        }
+
+        private void FormAjout_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            affiche = false;
+            this.Dispose();
         }
     }
 }

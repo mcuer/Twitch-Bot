@@ -52,19 +52,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormAjoutcs.cs">
+    <Compile Include="FormAjout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAjoutcs.Designer.cs">
-      <DependentUpon>FormAjoutcs.cs</DependentUpon>
+    <Compile Include="FormAjout.Designer.cs">
+      <DependentUpon>FormAjout.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormAjoutcs.resx">
-      <DependentUpon>FormAjoutcs.cs</DependentUpon>
+    <EmbeddedResource Include="FormAjout.resx">
+      <DependentUpon>FormAjout.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

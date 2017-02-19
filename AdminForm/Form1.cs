@@ -15,6 +15,7 @@ namespace AdminForm
 {
     public partial class Form1 : Form
     {
+        FormAjout ajouter;
         private bool connexion = false;
         private RandomCensures.Stream str;
         public Form1()
@@ -86,24 +87,36 @@ namespace AdminForm
             }
         }
 
-        private void LbMotBanni_SelectedIndexChanged(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            
+            MotBanniUpdate();
+            ajouter = new FormAjout(this);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public void MotBanniUpdate()
         {
             string sMot = File.ReadAllText("Insultes.txt");
             string[] mots = sMot.Split(',');
+            LbMotBanni.Items.Clear();
             foreach (string mot in mots)
             {
                 LbMotBanni.Items.Add(mot + "\n");
             }
-        }
-        private void AjoutMot_MouseClick(object sender, MouseEventArgs e)
-        {
-            str.setAjoutMot(tbNomMot.Text);
             LbMotBanni.Refresh();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            ajouter = new FormAjout(this);
+            ajouter.Show();
+        }
+
+        private void Form1_Click(object sender, EventArgs e)
+        {
+            if (ajouter.affiche)
+            {
+                ajouter.Focus();
+            }
         }
     }
 }

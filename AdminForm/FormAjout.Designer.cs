@@ -1,6 +1,6 @@
 ﻿namespace AdminForm
 {
-    partial class FormAjoutcs
+    partial class FormAjout
     {
         /// <summary>
         /// Required designer variable.
@@ -60,7 +60,7 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // FormAjoutcs
+            // FormAjout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -68,8 +68,9 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.ajoutMotTB);
             this.Controls.Add(this.label1);
-            this.Name = "FormAjoutcs";
+            this.Name = "FormAjout";
             this.Text = "FormAjoutcs";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAjout_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
