@@ -35,9 +35,7 @@ namespace RandomCensures
 
         public bool antiFlood { get; set; }
         public int floodLimit { get; set; }
-
-       public string motAJouter { get; set; }
-
+        
         private List<MessageUtilisateur> lMessageUtilisateur { get; set; }
 
         public Stream()
@@ -75,10 +73,8 @@ namespace RandomCensures
                     + "USER " + userName + " 8 * :" + userName
                 );
             writer.WriteLine("CAP REQ :twitch.tv/membership");
-            //writer.WriteLine("CAP REQ :twitch.tv/tags");
             writer.WriteLine("CAP REQ :twitch.tv/commands");
             writer.WriteLine("JOIN #" + channelName);
-            //writer.WriteLine(":jtv MODE #<channel> +o <user>");
 
             this.lastMessage = DateTime.Now;
         }
@@ -171,7 +167,6 @@ namespace RandomCensures
         private void ReceiveMessage (string speaker, string message)
         {
             //String.Compare("", "", true, CultureInfo);
-            File.AppendAllText($"Insultes.txt", motAJouter);
             string sMot = File.ReadAllText("Insultes.txt");
             string[] mots = sMot.Split(',');
             List<string> Utilisateurs = new List<string>();
@@ -263,11 +258,6 @@ namespace RandomCensures
         {
             this.antiFlood = antiFlood;
             this.floodLimit = floodLimit;
-        }
-        public void setAjoutMot(string motAJouter)
-        {
-            this.motAJouter = motAJouter;
-
         }
     }
 }

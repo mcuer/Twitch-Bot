@@ -51,14 +51,13 @@ namespace AdminForm
             this.label7 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.connexionBT = new System.Windows.Forms.Button();
-            this.AjoutMot = new System.Windows.Forms.Button();
-            this.tbNomMot = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 87);
+            this.label1.Location = new System.Drawing.Point(12, 96);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 0;
@@ -67,7 +66,7 @@ namespace AdminForm
             // LbMotBanni
             // 
             this.LbMotBanni.FormattingEnabled = true;
-            this.LbMotBanni.Location = new System.Drawing.Point(12, 103);
+            this.LbMotBanni.Location = new System.Drawing.Point(15, 112);
             this.LbMotBanni.Name = "LbMotBanni";
             this.LbMotBanni.Size = new System.Drawing.Size(234, 160);
             this.LbMotBanni.TabIndex = 1;
@@ -76,7 +75,7 @@ namespace AdminForm
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(315, 87);
+            this.label2.Location = new System.Drawing.Point(315, 96);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 13);
             this.label2.TabIndex = 2;
@@ -85,7 +84,7 @@ namespace AdminForm
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 353);
+            this.label3.Location = new System.Drawing.Point(12, 286);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(118, 13);
             this.label3.TabIndex = 4;
@@ -94,7 +93,7 @@ namespace AdminForm
             // CbUniqAbo
             // 
             this.CbUniqAbo.AutoSize = true;
-            this.CbUniqAbo.Location = new System.Drawing.Point(136, 352);
+            this.CbUniqAbo.Location = new System.Drawing.Point(139, 285);
             this.CbUniqAbo.Name = "CbUniqAbo";
             this.CbUniqAbo.Size = new System.Drawing.Size(15, 14);
             this.CbUniqAbo.TabIndex = 5;
@@ -104,7 +103,7 @@ namespace AdminForm
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 386);
+            this.label4.Location = new System.Drawing.Point(12, 319);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 13);
             this.label4.TabIndex = 6;
@@ -113,7 +112,7 @@ namespace AdminForm
             // CbAntiFlood
             // 
             this.CbAntiFlood.AutoSize = true;
-            this.CbAntiFlood.Location = new System.Drawing.Point(136, 385);
+            this.CbAntiFlood.Location = new System.Drawing.Point(139, 318);
             this.CbAntiFlood.Name = "CbAntiFlood";
             this.CbAntiFlood.Size = new System.Drawing.Size(15, 14);
             this.CbAntiFlood.TabIndex = 7;
@@ -123,7 +122,7 @@ namespace AdminForm
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(218, 371);
+            this.label5.Location = new System.Drawing.Point(174, 319);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 13);
             this.label5.TabIndex = 8;
@@ -131,7 +130,7 @@ namespace AdminForm
             // 
             // TbNbMess
             // 
-            this.TbNbMess.Location = new System.Drawing.Point(315, 364);
+            this.TbNbMess.Location = new System.Drawing.Point(271, 312);
             this.TbNbMess.Name = "TbNbMess";
             this.TbNbMess.Size = new System.Drawing.Size(100, 20);
             this.TbNbMess.TabIndex = 9;
@@ -141,11 +140,11 @@ namespace AdminForm
             // 
             // Bplus
             // 
-            this.Bplus.Location = new System.Drawing.Point(528, 77);
+            this.Bplus.Location = new System.Drawing.Point(505, 83);
             this.Bplus.Name = "Bplus";
-            this.Bplus.Size = new System.Drawing.Size(26, 23);
+            this.Bplus.Size = new System.Drawing.Size(64, 23);
             this.Bplus.TabIndex = 10;
-            this.Bplus.Text = "+";
+            this.Bplus.Text = "Ajouter";
             this.Bplus.UseVisualStyleBackColor = true;
             // 
             // timer1
@@ -162,7 +161,7 @@ namespace AdminForm
             // LbFrequence
             // 
             this.LbFrequence.FormattingEnabled = true;
-            this.LbFrequence.Location = new System.Drawing.Point(505, 103);
+            this.LbFrequence.Location = new System.Drawing.Point(505, 112);
             this.LbFrequence.Name = "LbFrequence";
             this.LbFrequence.Size = new System.Drawing.Size(69, 160);
             this.LbFrequence.TabIndex = 11;
@@ -170,7 +169,7 @@ namespace AdminForm
             // LbMessagePeriodique
             // 
             this.LbMessagePeriodique.FormattingEnabled = true;
-            this.LbMessagePeriodique.Location = new System.Drawing.Point(315, 103);
+            this.LbMessagePeriodique.Location = new System.Drawing.Point(315, 112);
             this.LbMessagePeriodique.Name = "LbMessagePeriodique";
             this.LbMessagePeriodique.Size = new System.Drawing.Size(184, 160);
             this.LbMessagePeriodique.TabIndex = 3;
@@ -229,30 +228,21 @@ namespace AdminForm
             this.connexionBT.Click += new System.EventHandler(this.button1_Click);
             this.connexionBT.MouseClick += new System.Windows.Forms.MouseEventHandler(this.connexionBT_MouseClick);
             // 
-            // AjoutMot
+            // button1
             // 
-            this.AjoutMot.Location = new System.Drawing.Point(136, 297);
-            this.AjoutMot.Name = "AjoutMot";
-            this.AjoutMot.Size = new System.Drawing.Size(75, 23);
-            this.AjoutMot.TabIndex = 18;
-            this.AjoutMot.Text = "Ajouter";
-            this.AjoutMot.UseVisualStyleBackColor = true;
-            this.AjoutMot.MouseClick += new System.Windows.Forms.MouseEventHandler(this.AjoutMot_MouseClick);
-            // 
-            // tbNomMot
-            // 
-            this.tbNomMot.Location = new System.Drawing.Point(12, 297);
-            this.tbNomMot.Name = "tbNomMot";
-            this.tbNomMot.Size = new System.Drawing.Size(102, 20);
-            this.tbNomMot.TabIndex = 19;
+            this.button1.Location = new System.Drawing.Point(177, 83);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(64, 23);
+            this.button1.TabIndex = 18;
+            this.button1.Text = "Ajouter";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(590, 417);
-            this.Controls.Add(this.tbNomMot);
-            this.Controls.Add(this.AjoutMot);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.connexionBT);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label7);
@@ -301,8 +291,7 @@ namespace AdminForm
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Button connexionBT;
-        private System.Windows.Forms.Button AjoutMot;
-        private System.Windows.Forms.TextBox tbNomMot;
+        private System.Windows.Forms.Button button1;
     }
 }
 
