@@ -237,6 +237,7 @@ namespace AdminForm
             this.AjoutMot.TabIndex = 18;
             this.AjoutMot.Text = "Ajouter";
             this.AjoutMot.UseVisualStyleBackColor = true;
+            this.AjoutMot.MouseClick += new System.Windows.Forms.MouseEventHandler(this.AjoutMot_MouseClick);
             // 
             // tbNomMot
             // 

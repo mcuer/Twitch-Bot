@@ -23,10 +23,7 @@ namespace AdminForm
             str = new RandomCensures.Stream();
 
         }
-
-
         
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (connexion)
@@ -102,12 +99,11 @@ namespace AdminForm
             {
                 LbMotBanni.Items.Add(mot + "\n");
             }
-            LbMotBanni.Refresh();
         }
-        /*
-        private void AjoutMot_Click(object sender, EventArgs e)
+        private void AjoutMot_MouseClick(object sender, MouseEventArgs e)
         {
             str.setAjoutMot(tbNomMot.Text);
-        }*/
+            LbMotBanni.Refresh();
+        }
     }
 }

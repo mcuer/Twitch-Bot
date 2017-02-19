@@ -36,7 +36,7 @@ namespace RandomCensures
         public bool antiFlood { get; set; }
         public int floodLimit { get; set; }
 
-       /* public string motAJouter { get; set; }*/
+       public string motAJouter { get; set; }
 
         private List<MessageUtilisateur> lMessageUtilisateur { get; set; }
 
@@ -171,9 +171,10 @@ namespace RandomCensures
         private void ReceiveMessage (string speaker, string message)
         {
             //String.Compare("", "", true, CultureInfo);
-            /*File.WriteAllText("Insultes.txt", motAJouter);*/
+            File.AppendAllText($"Insultes.txt", motAJouter);
             string sMot = File.ReadAllText("Insultes.txt");
             string[] mots = sMot.Split(',');
+            List<string> Utilisateurs = new List<string>();
             bool found = false;
             if (speaker != userName)
             {
@@ -222,6 +223,10 @@ namespace RandomCensures
                     SendMessage("!commande", $"les commandes sont : ");
                     return;
                 }
+                if (message.Equals("test"))
+                {
+                     Utilisateurs.Add(speaker);
+                }
             }
         }
 
@@ -259,10 +264,10 @@ namespace RandomCensures
             this.antiFlood = antiFlood;
             this.floodLimit = floodLimit;
         }
-        /*public void setAjoutMot(string motAJouter)
+        public void setAjoutMot(string motAJouter)
         {
             this.motAJouter = motAJouter;
 
-        }*/
+        }
     }
 }
