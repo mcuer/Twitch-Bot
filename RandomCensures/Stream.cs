@@ -33,6 +33,8 @@ namespace RandomCensures
 
         public bool member { get; set; }
 
+        private int wait { get; set; }
+
         public bool antiFlood { get; set; }
         public int floodLimit { get; set; }
         
@@ -72,10 +74,8 @@ namespace RandomCensures
                     + "NICK " + userName + Environment.NewLine
                     + "USER " + userName + " 8 * :" + userName
                 );
-            writer.WriteLine("CAP REQ :twitch.tv/membership");
-            writer.WriteLine("CAP REQ :twitch.tv/commands");
             writer.WriteLine("JOIN #" + channelName);
-
+            wait = 2;
             this.lastMessage = DateTime.Now;
         }
 
@@ -106,7 +106,7 @@ namespace RandomCensures
 
         private void TrySendingMessages()
         {
-            if (DateTime.Now - lastMessage > TimeSpan.FromSeconds(5))
+            if (DateTime.Now - lastMessage > TimeSpan.FromSeconds(wait))
             {
                 if (sendMessageQueue.Count > 0)
                 {
@@ -114,11 +114,13 @@ namespace RandomCensures
                     Console.WriteLine(message);
                     writer.WriteLine($"{message}");
                     lastMessage = DateTime.Now;
+                    wait = 2;
                     if (message.Split('@')[0].Contains(userName) && message.Split(':')[2].Contains("/followers"))
                     {
                         message = sendMessageQueue.Dequeue();
                         Console.WriteLine(message);
                         writer.WriteLine($"{message}");
+                        wait = 4;
                         return;
                     }
                     if (message.Split('@')[0].Contains(userName) && message.Split(':')[2].Contains("/timeout"))
@@ -126,6 +128,7 @@ namespace RandomCensures
                         message = sendMessageQueue.Dequeue();
                         Console.WriteLine(message);
                         writer.WriteLine($"{message}");
+                        wait = 4;
                         return;
                     }
                     if (message.Split('@')[0].Contains(userName) && message.Split(':')[2].Contains("/followersoff"))
@@ -133,6 +136,7 @@ namespace RandomCensures
                         message = sendMessageQueue.Dequeue();
                         Console.WriteLine(message);
                         writer.WriteLine($"{message}");
+                        wait = 4;
                         return;
                     }
                 }
