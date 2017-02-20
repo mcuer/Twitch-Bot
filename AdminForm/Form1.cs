@@ -24,12 +24,12 @@ namespace AdminForm
             str = new RandomCensures.Stream();
 
         }
-        
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (connexion)
             {
-                str.update(sender, e); 
+                str.update(sender, e);
             }
         }
 
@@ -37,7 +37,7 @@ namespace AdminForm
         {
             if (connexion)
             {
-                str.SendMessage("timerMessage", "Bonjour"); 
+                str.SendMessage("timerMessage", "Bonjour");
             }
         }
 
@@ -100,7 +100,7 @@ namespace AdminForm
             LbMotBanni.Items.Clear();
             foreach (string mot in mots)
             {
-                LbMotBanni.Items.Add(mot + "\n");
+                LbMotBanni.Items.Add(mot);
             }
             LbMotBanni.Refresh();
         }
@@ -117,6 +117,18 @@ namespace AdminForm
             {
                 ajouter.Focus();
             }
+        }
+
+        private void button2_MouseClick(object sender, MouseEventArgs e)
+        {
+            string identifiant = LbMotBanni.Items[LbMotBanni.SelectedIndex].ToString();
+            LbMotBanni.Items.Remove(identifiant);
+            string tampList = "";
+            foreach (string mot  in LbMotBanni.Items)
+            {
+                tampList += "," + mot;
+            }
+            File.WriteAllText("Insultes.txt", tampList);
         }
     }
 }
