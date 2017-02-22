@@ -225,6 +225,7 @@ namespace RandomCensures
                 if (message.Equals("test"))
                 {
                      Utilisateurs.Add(speaker);
+                    return;
                 }
             }
         }
@@ -240,15 +241,18 @@ namespace RandomCensures
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
                 case "timeout":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10"); // A mettre à 15 minutes
+                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10"); //TODO mettre à 15 minutes
                     sendMessageQueue.Enqueue(chatMessagePrefix + message + " vous n'avez pas respecté les régles (Ban de 15 minutes!)");
                     break;
                 case "timerMessage":
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
                 case "flood":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10"); //A mettre à 1 minute!
+                    sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10"); //TODO A mettre à 1 minute!
                     sendMessageQueue.Enqueue(chatMessagePrefix + message + " Pas de flood!");
+                    break;
+                case "vote":
+                    sendMessageQueue.Enqueue(chatMessagePrefix + message );
                     break;
             }
         }
