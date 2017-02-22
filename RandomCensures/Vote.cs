@@ -16,6 +16,13 @@ namespace RandomCensures
         private int timerInSeconde { get; set; }
         private int[] voteResults { get; set; }
 
+        /// <summary>
+        /// Constructeur pour lancer un vote
+        /// </summary>
+        /// <param name="OriginBot">La classe d'où le vote est lancer</param>
+        /// <param name="voteValues">tableau de string comprenant toutes les valeurs possibles pour le vote</param>
+        /// <param name="timerInSeconde">Durée pendant il sera possible de voter
+        /// mis à 120secondes (2minutes) si aucune valeur</param>
         public Vote(Stream OriginBot, string[] voteValues, int timerInSeconde)
         {
             this.OriginBot = OriginBot;
@@ -26,11 +33,19 @@ namespace RandomCensures
             {
                 this.voteResults[i] = 0;
             }
-            this.timerInSeconde = timerInSeconde;
+            if (timerInSeconde < 0)
+            {
+                this.timerInSeconde = timerInSeconde;
+            }else
+            {
+                this.timerInSeconde = 120;
+            }
             resetEvent = new AutoResetEvent(false);
             thread = new Thread(Run);
         }
-
+        /// <summary>
+        /// Démmarre le vote en affichant les possibilités
+        /// </summary>
         public void voteStart()
         {
             string message = "Le vote commence!";
@@ -42,7 +57,11 @@ namespace RandomCensures
             OriginBot.SendMessage("vote", message);
             resetEvent.Set();
         }
-
+        /// <summary>
+        /// Ajoute un vote
+        /// </summary>
+        /// <param name="votant">est le nom(pseudo) de la personne qui vote</param>
+        /// <param name="voteValue">est l'index correspondant à son choix pour le vote</param>
         public void voteAdd(string votant, int voteValue)
         {
             if (this.votant.Contains(votant))
@@ -52,7 +71,9 @@ namespace RandomCensures
             this.votant.Add(votant);
             this.voteResults[voteValue]++;
         }
-        
+        /// <summary>
+        /// Arrete le vote en cours, et affiche les résultats
+        /// </summary>
         private void voteStop()
         {
             string message = "Le vote est fini!";
@@ -64,6 +85,9 @@ namespace RandomCensures
             OriginBot.SendMessage("vote", message);
         }
 
+        /// <summary>
+        /// Thread stopant le vote une fois la durée écoulé
+        /// </summary>
         private void Run()
         {
             resetEvent.WaitOne();

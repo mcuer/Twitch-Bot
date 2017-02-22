@@ -25,6 +25,9 @@ namespace AdminForm
 
         }
 
+        /// <summary>
+        /// Timer lancant la mise à jour de la récéption des messages par le bot (Stream)
+        /// </summary>
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (connexion)
@@ -33,6 +36,10 @@ namespace AdminForm
             }
         }
 
+        /// <summary>
+        /// Timer de test des messages périodiques
+        /// </summary>
+        /// TODO à supprimer proprement
         private void timer2_Tick(object sender, EventArgs e)
         {
             if (connexion)
@@ -41,6 +48,9 @@ namespace AdminForm
             }
         }
 
+        /// <summary>
+        /// Action sur le CheckBox demandant au bot de changer l'accessibilité du chat au followers seulement ou non
+        /// </summary>
         private void CbUniqAbo_CheckedChanged(object sender, EventArgs e)
         {
             str.member = CbUniqAbo.Checked;
@@ -48,6 +58,9 @@ namespace AdminForm
 
         }
 
+        /// <summary>
+        /// Action sur le CheckBox activant ou desactivant le controle du flood
+        /// </summary>
         private void CbAntiFlood_CheckedChanged(object sender, EventArgs e)
         {
             int floodLimit;
@@ -62,15 +75,17 @@ namespace AdminForm
             str.setAntiflood(CbAntiFlood.Checked, floodLimit);
         }
 
+        /// <summary>
+        /// Ouvre le navigateur web par défaut et envoie l'utilisateur sur la page permettant d'optenir l'identifiant oAuth
+        /// </summary>
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://twitchapps.com/tmi");
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-        }
-
+        
+        /// <summary>
+        /// Boutton connexion, Lance la connexion si pas déjà connecté, sinon coupe la connexion
+        /// </summary>
         private void connexionBT_MouseClick(object sender, MouseEventArgs e)
         {
             if (!connexion)
@@ -81,18 +96,24 @@ namespace AdminForm
             }
             else
             {
-                str.Disconnect();
+                str.Dispose();
                 connexion = false;
                 connexionBT.Text = "Connexion";
             }
         }
 
+        /// <summary>
+        /// Initialisation du windows form
+        /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
             MotBanniUpdate();
             ajouter = new FormAjout(this);
         }
 
+        /// <summary>
+        /// Mise à jour du ListBox contenant les insultes
+        /// </summary>
         public void MotBanniUpdate()
         {
             string sMot = File.ReadAllText("Insultes.txt");
@@ -105,12 +126,9 @@ namespace AdminForm
             LbMotBanni.Refresh();
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            ajouter = new FormAjout(this);
-            ajouter.Show();
-        }
-
+        /// <summary>
+        /// Force le focus sur la fenetre d'ajout d'insultes tant qu'elle est affiché
+        /// </summary>
         private void Form1_Click(object sender, EventArgs e)
         {
             if (ajouter.affiche)
@@ -119,11 +137,16 @@ namespace AdminForm
             }
         }
 
+        /// <summary>
+        /// Suppression de l'insulte séléctionné dans le ListBox
+        /// </summary>
         private void button2_MouseClick(object sender, MouseEventArgs e)
         {
+            if (LbMotBanni.SelectedIndex >= 0)
+            {
             string sMot = File.ReadAllText("Insultes.txt");
             string[] mots = sMot.Split(',');
-            string motASupprimer = LbMotBanni.Items[LbMotBanni.SelectedIndex].ToString();
+                string motASupprimer = LbMotBanni.Items[LbMotBanni.SelectedIndex].ToString(); 
             string tampList = "";
             foreach (string mot  in mots)
             {
@@ -134,6 +157,21 @@ namespace AdminForm
             }
             File.WriteAllText("Insultes.txt", tampList.TrimEnd(',').TrimStart(','));
             this.MotBanniUpdate();
+            }
+        }
+
+        /// <summary>
+        /// Affiche la fenetre d'ajout d'insultes
+        /// </summary>
+        private void btAjouter_MouseClick(object sender, MouseEventArgs e)
+        {
+            ajouter = new FormAjout(this);
+            ajouter.Show();
+        }
+
+        private void btAjouter_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

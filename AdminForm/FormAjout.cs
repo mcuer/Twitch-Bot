@@ -23,6 +23,10 @@ namespace AdminForm
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Bouton validant l'ajout des mots dans la liste
+        /// met à jour le ListBox et le fichier Insultes.txt puis ferme la fenetre
+        /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
             string sMot = File.ReadAllText("Insultes.txt");
@@ -53,6 +57,9 @@ namespace AdminForm
             this.Dispose();
         }
 
+        /// <summary>
+        /// Ferme la fenetre d'ajout et met affiche à false pour pouvoir reprendre la main sur la fenetre principale
+        /// </summary>
         private void FormAjout_FormClosing(object sender, FormClosingEventArgs e)
         {
             affiche = false;

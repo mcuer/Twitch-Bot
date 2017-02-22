@@ -51,7 +51,7 @@ namespace AdminForm
             this.label7 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.connexionBT = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btAjouter = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -225,18 +225,18 @@ namespace AdminForm
             this.connexionBT.TabIndex = 17;
             this.connexionBT.Text = "Connexion";
             this.connexionBT.UseVisualStyleBackColor = true;
-            this.connexionBT.Click += new System.EventHandler(this.button1_Click);
             this.connexionBT.MouseClick += new System.Windows.Forms.MouseEventHandler(this.connexionBT_MouseClick);
             // 
-            // button1
+            // btAjouter
             // 
-            this.button1.Location = new System.Drawing.Point(107, 83);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(64, 23);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "Ajouter";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.btAjouter.Location = new System.Drawing.Point(107, 83);
+            this.btAjouter.Name = "btAjouter";
+            this.btAjouter.Size = new System.Drawing.Size(64, 23);
+            this.btAjouter.TabIndex = 18;
+            this.btAjouter.Text = "Ajouter";
+            this.btAjouter.UseVisualStyleBackColor = true;
+            this.btAjouter.Click += new System.EventHandler(this.btAjouter_Click);
+            this.btAjouter.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btAjouter_MouseClick);
             // 
             // button2
             // 
@@ -254,7 +254,7 @@ namespace AdminForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(590, 354);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btAjouter);
             this.Controls.Add(this.connexionBT);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label7);
@@ -305,7 +305,7 @@ namespace AdminForm
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Button connexionBT;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btAjouter;
         private System.Windows.Forms.Button button2;
     }
 }

@@ -10,35 +10,31 @@ namespace RandomCensures
     public class Stream : IDisposable
     {
         private StreamReader reader { get; set; }
-
         private StreamWriter writer { get; set; }
-
         private string oAuth { get; set; }
-
         private string chatMessagePrefix { get; set; }
-
         private string chatCommandId { get; set; }
-
         private string userName { get; set; }
-
         private string channelName { get; set; }
-
         private TcpClient tcpClient { get; set; }
-
         private DateTime lastMessage { get; set; }
-
         private Queue<string> sendMessageQueue { get;set; }
-
-        public bool member { get; set; }
-
         private int wait { get; set; }
-
-        public bool antiFlood { get; set; }
-        public int floodLimit { get; set; }
-        
         private List<MessageUtilisateur> lMessageUtilisateur { get; set; }
-
         private List<IChatCommandMod> chatProcessors;
+
+        /// <summary>
+        /// Variable de mise à jour de l'accessibilité du chat
+        /// </summary>
+        public bool member { get; set; }
+        /// <summary>
+        /// Variable d'activation de l'anti flood
+        /// </summary>
+        public bool antiFlood { get; set; }
+        /// <summary>
+        /// Variable contenant le nombre de message autorisé par période de 10s
+        /// </summary>
+        public int floodLimit { get; set; }
 
         public Stream()
         {
@@ -62,6 +58,11 @@ namespace RandomCensures
             chatProcessors = new List<IChatCommandMod>();
         }
 
+        /// <summary>
+        /// Initialisation du bot et connexion
+        /// </summary>
+        /// <param name="uName">Nom de l'utilisateur</param>
+        /// <param name="oAuth">oAuth de l'utilisateur</param>
         public void Init (string uName, string oAuth )
         {
             this.userName = uName.ToLower();
@@ -71,12 +72,9 @@ namespace RandomCensures
             Reconnect();
         }
 
-        public void Disconnect()
-        {
-            this.tcpClient.Close();
-            Dispose();
-        }
-
+        /// <summary>
+        /// Reconnexion du client en cas de perte
+        /// </summary>
         public void Reconnect()
         {
             this.tcpClient = new TcpClient("irc.twitch.tv", 6667);
@@ -93,6 +91,9 @@ namespace RandomCensures
             this.lastMessage = DateTime.Now;
         }
 
+        /// <summary>
+        /// fonction lançant la commande de limitation d'accès au chat
+        /// </summary>
         public void MemberOnly()
         {
             if (member == true)
@@ -107,6 +108,10 @@ namespace RandomCensures
             }
         }
 
+        /// <summary>
+        /// Met à jour le client, fait une tentative de reconnexion si nécessaire
+        /// Lance une récéption et un envoie des messages
+        /// </summary>
         public void update (object sender, EventArgs e)
         {
             if (!tcpClient.Connected)
@@ -118,6 +123,9 @@ namespace RandomCensures
             TryReceiveMessages();
         }
 
+        /// <summary>
+        /// Envoie les messages au chat
+        /// </summary>
         private void TrySendingMessages()
         {
             if (DateTime.Now - lastMessage > TimeSpan.FromSeconds(wait))
@@ -157,6 +165,9 @@ namespace RandomCensures
             }
         }
 
+        /// <summary>
+        /// Reçois les derniers messages envoyés sur le chat
+        /// </summary>
         private void TryReceiveMessages()
         {
             if (tcpClient.Available > 0 || reader.Peek() >= 0)
@@ -182,6 +193,11 @@ namespace RandomCensures
             }
         }
 
+        /// <summary>
+        /// Traite les messages reçus
+        /// </summary>
+        /// <param name="speaker">Pseudo de l'auteur du message</param>
+        /// <param name="message">Son message</param>
         private void ReceiveMessage (string speaker, string message)
         {
             //String.Compare("", "", true, CultureInfo);
@@ -247,41 +263,56 @@ namespace RandomCensures
             }
         }
 
+        /// <summary>
+        /// Formate les messages à envoyer au chat
+        /// </summary>
+        /// <param name="command">Valeur permettant un switch pour le traitement des commandes spécifiques</param>
+        /// <param name="message">Le message à écrire</param>
         public void SendMessage(string command,string message)
         {
             switch (command)
             {
-                case "!hi":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + message);
-                    break;
-                case "!commande":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + message);
-                    break;
+                //case "!hi":
+                //    sendMessageQueue.Enqueue(chatMessagePrefix + message);
+                //    break;
+                //case "!commande":
+                //    sendMessageQueue.Enqueue(chatMessagePrefix + message);
+                //    break;
                 case "timeout":
                     sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10"); //TODO mettre à 15 minutes
                     sendMessageQueue.Enqueue(chatMessagePrefix + message + " vous n'avez pas respecté les régles (Ban de 15 minutes!)");
                     break;
-                case "timerMessage":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + message);
-                    break;
+                //case "timerMessage":
+                //    sendMessageQueue.Enqueue(chatMessagePrefix + message);
+                //    break;
                 case "flood":
                     sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10"); //TODO A mettre à 1 minute!
                     sendMessageQueue.Enqueue(chatMessagePrefix + message + " Pas de flood!");
                     break;
-                case "vote":
-                    sendMessageQueue.Enqueue(chatMessagePrefix + message );
-                    break;
+                //case "vote":
+                //    sendMessageQueue.Enqueue(chatMessagePrefix + message );
+                //    break;
                 default:
                     sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
             }
         }
+
+        /// <summary>
+        /// Fermeture du bot
+        /// </summary>
         public void Dispose()
         {
+            this.tcpClient.Close();
             writer.Close();
             reader.Close();
         }
 
+        /// <summary>
+        /// Mise à jour de l'anti flood
+        /// </summary>
+        /// <param name="antiFlood">Activation/désactivation de l'anti flood</param>
+        /// <param name="floodLimit">Limite de message de l'anti flood</param>
         public void setAntiflood(bool antiFlood, int floodLimit)
         {
             this.antiFlood = antiFlood;

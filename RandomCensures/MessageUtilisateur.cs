@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RandomCensures
 {
+    /// <summary>
+    /// Class facilitant la vérification du flood
+    /// </summary>
     class MessageUtilisateur
     {
         public string speaker { get; set; }
