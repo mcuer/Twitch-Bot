@@ -26,8 +26,8 @@ namespace AdminForm
         private void button1_Click(object sender, EventArgs e)
         {
             string sMot = File.ReadAllText("Insultes.txt");
-            string[] ajoutMot = ajoutMotTB.Text.Split(',');
             string[] mots = sMot.Split(',');
+            string[] ajoutMot = ajoutMotTB.Text.Split(',');
             string trimedWord;
             foreach (string motAAjouter in ajoutMot)
             {

@@ -121,14 +121,19 @@ namespace AdminForm
 
         private void button2_MouseClick(object sender, MouseEventArgs e)
         {
-            string identifiant = LbMotBanni.Items[LbMotBanni.SelectedIndex].ToString();
-            LbMotBanni.Items.Remove(identifiant);
+            string sMot = File.ReadAllText("Insultes.txt");
+            string[] mots = sMot.Split(',');
+            string motASupprimer = LbMotBanni.Items[LbMotBanni.SelectedIndex].ToString();
             string tampList = "";
-            foreach (string mot  in LbMotBanni.Items)
+            foreach (string mot  in mots)
             {
-                tampList += "," + mot;
+                if (!mot.Equals(motASupprimer))
+                {
+                    tampList += "," + mot.TrimEnd('\n').TrimStart('\n'); 
+                }
             }
-            File.WriteAllText("Insultes.txt", tampList);
+            File.WriteAllText("Insultes.txt", tampList.TrimEnd(',').TrimStart(','));
+            this.MotBanniUpdate();
         }
     }
 }
