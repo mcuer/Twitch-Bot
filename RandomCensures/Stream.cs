@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.IO;
-using System.Globalization;
-using System.Net;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 
 namespace RandomCensures
 {
@@ -40,12 +38,28 @@ namespace RandomCensures
         
         private List<MessageUtilisateur> lMessageUtilisateur { get; set; }
 
+        private List<IChatCommandMod> chatProcessors;
+
         public Stream()
         {
             lMessageUtilisateur = new List<MessageUtilisateur>();
             this.tcpClient = new TcpClient();
             sendMessageQueue = new Queue<string>();
             this.chatCommandId = "PRIVMSG";
+
+            foreach (var file in Directory.EnumerateFiles("./Mods", ".dll"))
+            {
+                var assembly = Assembly.LoadFile(file);
+                foreach (var type in assembly.GetTypes())
+                {
+                    if (typeof(IChatCommandMod).IsAssignableFrom(type))
+                    {
+                        chatProcessors.Add(type.GetConstructor(new Type[] { }).Invoke(null) as IChatCommandMod);
+                    }
+                }
+            }
+
+            chatProcessors = new List<IChatCommandMod>();
         }
 
         public void Init (string uName, string oAuth )
@@ -219,13 +233,16 @@ namespace RandomCensures
                 }
                 if (message.StartsWith("!commande"))
                 {
-                    SendMessage("!commande", $"les commandes sont : ");
+                    SendMessage("!commande", "les commandes sont : ");
                     return;
                 }
-                if (message.Equals("test"))
+                foreach (var processor in chatProcessors)
                 {
-                     Utilisateurs.Add(speaker);
-                    return;
+                    var result = processor.ProcessMessage(speaker, message);
+                    if (result != null)
+                    {
+                        SendMessage("", result);
+                    }
                 }
             }
         }
@@ -253,6 +270,9 @@ namespace RandomCensures
                     break;
                 case "vote":
                     sendMessageQueue.Enqueue(chatMessagePrefix + message );
+                    break;
+                default:
+                    sendMessageQueue.Enqueue(chatMessagePrefix + message);
                     break;
             }
         }
