@@ -23,6 +23,7 @@ namespace RandomCensures
         private int wait { get; set; }
         private List<MessageUtilisateur> lMessageUtilisateur { get; set; }
         private List<IChatCommandMod> chatProcessors;
+        private Cadeau cadeau;
 
         /// <summary>
         /// Variable de mise à jour de l'accessibilité du chat
@@ -39,7 +40,8 @@ namespace RandomCensures
 
         public Stream()
         {
-            lMessageUtilisateur = new List<MessageUtilisateur>();
+            this.cadeau = new RandomCensures.Cadeau(this, 0);
+            this.lMessageUtilisateur = new List<MessageUtilisateur>();
             this.tcpClient = new TcpClient();
             sendMessageQueue = new Queue<string>();
             this.chatCommandId = "PRIVMSG";
@@ -253,6 +255,13 @@ namespace RandomCensures
                     SendMessage("!commande", "les commandes sont : ");
                     return;
                 }
+                if (message.StartsWith("!participe"))
+                {
+                    if (cadeau.started)
+                    {
+                        cadeau.cadeauAdd(speaker); 
+                    }
+                }
                 foreach (var processor in chatProcessors)
                 {
                     var result = processor.ProcessMessage(speaker, message);
@@ -260,6 +269,21 @@ namespace RandomCensures
                     {
                         SendMessage("", result);
                     }
+                }
+            }else
+            {
+                if (message.StartsWith("!cadeau"))
+                {
+                    string[] splitMessage = message.Split(' ');
+                    if (splitMessage[1].Equals("start"))
+                    {
+                        cadeau.cadeauStart();
+                    }else
+                    if(splitMessage[1].Equals("stop"))
+                    {
+                        cadeau.cadeauStop();
+                    }
+
                 }
             }
         }

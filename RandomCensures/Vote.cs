@@ -15,6 +15,7 @@ namespace RandomCensures
         private Stream OriginBot { get; set; }
         private int timerInSeconde { get; set; }
         private int[] voteResults { get; set; }
+        public bool started { get; set; }
 
         /// <summary>
         /// Constructeur pour lancer un vote
@@ -28,12 +29,13 @@ namespace RandomCensures
             this.OriginBot = OriginBot;
             this.voteValues = voteValues;
             this.votant = new List<String>();
+            started = false;
             this.voteResults = new int[voteValues.Count()];
             for(int i = 0; i<voteResults.Count(); i++)
             {
                 this.voteResults[i] = 0;
             }
-            if (timerInSeconde < 0)
+            if (timerInSeconde > 0)
             {
                 this.timerInSeconde = timerInSeconde;
             }else
@@ -55,10 +57,31 @@ namespace RandomCensures
             {
                 message += $"\n{i} - {voteValues.ElementAt(i-1)}";
             }
+            started = true;
             OriginBot.SendMessage("vote", message);
             resetEvent.Set();
         }
-        
+
+        /// <summary>
+        /// Démmarre le vote en affichant les possibilités
+        /// </summary>
+        public void voteStart(int timerInSeconds)
+        {
+            if (timerInSeconde > 0)
+            {
+                this.timerInSeconde = timerInSeconde;
+            }
+            string message = "Le vote commence!";
+            message += "\nLes valeurs possible sont les suivantes :";
+            for (int i = 1; i < voteValues.Count() + 1; i++)
+            {
+                message += $"\n{i} - {voteValues.ElementAt(i - 1)}";
+            }
+            started = true;
+            OriginBot.SendMessage("vote", message);
+            resetEvent.Set();
+        }
+
         /// <summary>
         /// Ajoute un vote
         /// </summary>
@@ -66,12 +89,11 @@ namespace RandomCensures
         /// <param name="voteValue">est l'index correspondant à son choix pour le vote</param>
         public void voteAdd(string votant, int voteValue)
         {
-            if (this.votant.Contains(votant))
+            if (!this.votant.Contains(votant))
             {
-                return;
+                this.votant.Add(votant);
+                this.voteResults[voteValue]++;
             }
-            this.votant.Add(votant);
-            this.voteResults[voteValue]++;
         }
         
         /// <summary>
@@ -85,6 +107,7 @@ namespace RandomCensures
             {
                 message += $"\n{i} - {voteValues.ElementAt(i - 1)} : {voteResults.ElementAt(i-1)} vote";
             }
+            started = false;
             OriginBot.SendMessage("vote", message);
         }
 
