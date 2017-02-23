@@ -16,6 +16,7 @@ namespace AdminForm
     public partial class Form1 : Form
     {
         FormAjout ajouter;
+        private int i;
         private bool connexion = false;
         private RandomCensures.Stream str;
         public Form1()
@@ -44,8 +45,17 @@ namespace AdminForm
         {
             if (connexion)
             {
-                str.SendMessage("timerMessage", "Bonjour");
-            }
+                
+                if(i < LbMessagePeriodique.Items.Count)
+                {
+                    str.SendMessage("timerMessage", LbMessagePeriodique.Items[i].ToString());
+                    i++;
+                }
+                else
+                {
+                    i = 0;
+                }
+             }
         }
 
         /// <summary>
@@ -107,7 +117,9 @@ namespace AdminForm
         /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
+            int i = 0;
             MotBanniUpdate();
+            MotPeriodiqueUpdate();
             ajouter = new FormAjout(this);
         }
 
@@ -124,6 +136,20 @@ namespace AdminForm
                 LbMotBanni.Items.Add(mot);
             }
             LbMotBanni.Refresh();
+        }
+        /// <summary>
+        /// Mise à jour du ListBox contenant les messagesPeriodiques
+        /// </summary>
+        public void MotPeriodiqueUpdate()
+        {
+            string sMot = File.ReadAllText("MessagesPerio.txt");
+            string[] mots = sMot.Split(',');
+            LbMessagePeriodique.Items.Clear();
+            foreach (string mot in mots)
+            {
+                LbMessagePeriodique.Items.Add(mot);
+            }
+            LbMessagePeriodique.Refresh();
         }
 
         /// <summary>

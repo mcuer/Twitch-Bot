@@ -155,7 +155,7 @@ namespace AdminForm
             // timer2
             // 
             this.timer2.Enabled = true;
-            this.timer2.Interval = 100000;
+            this.timer2.Interval = 10000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // LbFrequence
@@ -273,6 +273,7 @@ namespace AdminForm
             this.Controls.Add(this.LbMotBanni);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
