@@ -83,6 +83,7 @@ namespace RandomCensures
             this.timer = new Timer();
             timer.Elapsed += new ElapsedEventHandler(update);
             timer.Interval = 100;
+            this.stop();
             this.userName = uName.ToLower();
             this.channelName = this.userName;
             this.oAuth = oAuth;
@@ -264,7 +265,6 @@ namespace RandomCensures
                             return;
                         }
                     }
-
                     foreach (string mot in message.Split(' '))
                     {
                         Uri uriResult;
