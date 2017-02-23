@@ -9,6 +9,7 @@ namespace RandomCensures
 {
     public class Stream : IDisposable
     {
+        private Random rand { get; set; }
         private StreamReader reader { get; set; }
         private StreamWriter writer { get; set; }
         private string oAuth { get; set; }
