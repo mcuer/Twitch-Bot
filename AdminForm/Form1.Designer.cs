@@ -43,7 +43,6 @@ namespace AdminForm
             this.Bplus = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.LbFrequence = new System.Windows.Forms.ListBox();
             this.LbMessagePeriodique = new System.Windows.Forms.ListBox();
             this.uNameTB = new System.Windows.Forms.TextBox();
             this.oAuthTB = new System.Windows.Forms.TextBox();
@@ -53,12 +52,13 @@ namespace AdminForm
             this.connexionBT = new System.Windows.Forms.Button();
             this.btAjouter = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 96);
+            this.label1.Location = new System.Drawing.Point(12, 88);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 0;
@@ -75,7 +75,7 @@ namespace AdminForm
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(315, 96);
+            this.label2.Location = new System.Drawing.Point(320, 88);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 13);
             this.label2.TabIndex = 2;
@@ -140,7 +140,7 @@ namespace AdminForm
             // 
             // Bplus
             // 
-            this.Bplus.Location = new System.Drawing.Point(505, 83);
+            this.Bplus.Location = new System.Drawing.Point(433, 83);
             this.Bplus.Name = "Bplus";
             this.Bplus.Size = new System.Drawing.Size(64, 23);
             this.Bplus.TabIndex = 10;
@@ -158,20 +158,12 @@ namespace AdminForm
             this.timer2.Interval = 10000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
-            // LbFrequence
-            // 
-            this.LbFrequence.FormattingEnabled = true;
-            this.LbFrequence.Location = new System.Drawing.Point(505, 112);
-            this.LbFrequence.Name = "LbFrequence";
-            this.LbFrequence.Size = new System.Drawing.Size(69, 160);
-            this.LbFrequence.TabIndex = 11;
-            // 
             // LbMessagePeriodique
             // 
             this.LbMessagePeriodique.FormattingEnabled = true;
-            this.LbMessagePeriodique.Location = new System.Drawing.Point(315, 112);
+            this.LbMessagePeriodique.Location = new System.Drawing.Point(323, 112);
             this.LbMessagePeriodique.Name = "LbMessagePeriodique";
-            this.LbMessagePeriodique.Size = new System.Drawing.Size(184, 160);
+            this.LbMessagePeriodique.Size = new System.Drawing.Size(255, 160);
             this.LbMessagePeriodique.TabIndex = 3;
             // 
             // uNameTB
@@ -247,11 +239,21 @@ namespace AdminForm
             this.button2.UseVisualStyleBackColor = true;
             this.button2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button2_MouseClick);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(503, 83);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(64, 23);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "Supprimer";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(590, 354);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btAjouter);
             this.Controls.Add(this.connexionBT);
@@ -260,7 +262,6 @@ namespace AdminForm
             this.Controls.Add(this.label6);
             this.Controls.Add(this.oAuthTB);
             this.Controls.Add(this.uNameTB);
-            this.Controls.Add(this.LbFrequence);
             this.Controls.Add(this.Bplus);
             this.Controls.Add(this.TbNbMess);
             this.Controls.Add(this.label5);
@@ -297,7 +298,6 @@ namespace AdminForm
         private System.Windows.Forms.Button Bplus;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
-        private System.Windows.Forms.ListBox LbFrequence;
         private System.Windows.Forms.ListBox LbMessagePeriodique;
         private System.Windows.Forms.TextBox uNameTB;
         private System.Windows.Forms.TextBox oAuthTB;
@@ -307,6 +307,7 @@ namespace AdminForm
         private System.Windows.Forms.Button connexionBT;
         private System.Windows.Forms.Button btAjouter;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }
 
