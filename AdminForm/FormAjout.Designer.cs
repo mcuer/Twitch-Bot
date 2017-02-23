@@ -70,8 +70,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormAjout";
-            this.Text = "FormAjoutcs";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAjout_FormClosing);
+            this.Text = "Ajout d\'insultes";
             this.ResumeLayout(false);
             this.PerformLayout();
 

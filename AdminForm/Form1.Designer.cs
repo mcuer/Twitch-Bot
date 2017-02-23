@@ -41,7 +41,6 @@ namespace AdminForm
             this.label5 = new System.Windows.Forms.Label();
             this.TbNbMess = new System.Windows.Forms.TextBox();
             this.Bplus = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.LbMessagePeriodique = new System.Windows.Forms.ListBox();
             this.uNameTB = new System.Windows.Forms.TextBox();
@@ -53,6 +52,7 @@ namespace AdminForm
             this.btAjouter = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.pauseBT = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -146,11 +146,7 @@ namespace AdminForm
             this.Bplus.TabIndex = 10;
             this.Bplus.Text = "Ajouter";
             this.Bplus.UseVisualStyleBackColor = true;
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.Bplus.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Bplus_MouseClick);
             // 
             // timer2
             // 
@@ -247,12 +243,24 @@ namespace AdminForm
             this.button1.TabIndex = 20;
             this.button1.Text = "Supprimer";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // pauseBT
+            // 
+            this.pauseBT.Location = new System.Drawing.Point(463, 23);
+            this.pauseBT.Name = "pauseBT";
+            this.pauseBT.Size = new System.Drawing.Size(104, 37);
+            this.pauseBT.TabIndex = 21;
+            this.pauseBT.Text = "Start bot";
+            this.pauseBT.UseVisualStyleBackColor = true;
+            this.pauseBT.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pauseBT_MouseClick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(590, 354);
+            this.Controls.Add(this.pauseBT);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btAjouter);
@@ -278,7 +286,6 @@ namespace AdminForm
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.Click += new System.EventHandler(this.Form1_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,7 +303,6 @@ namespace AdminForm
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox TbNbMess;
         private System.Windows.Forms.Button Bplus;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.ListBox LbMessagePeriodique;
         private System.Windows.Forms.TextBox uNameTB;
@@ -308,6 +314,7 @@ namespace AdminForm
         private System.Windows.Forms.Button btAjouter;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button pauseBT;
     }
 }
 

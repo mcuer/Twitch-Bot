@@ -15,26 +15,16 @@ namespace AdminForm
 {
     public partial class Form1 : Form
     {
-        FormAjout ajouter;
+        FormAjout ajouterInsultes;
+        FormAjoutPerio ajouterMessagesPeriodique;
         private int i;
         private bool connexion = false;
+        private bool pause = true;
         private RandomCensures.Stream str;
         public Form1()
         {
             InitializeComponent();
             str = new RandomCensures.Stream();
-
-        }
-
-        /// <summary>
-        /// Timer lancant la mise à jour de la récéption des messages par le bot (Stream)
-        /// </summary>
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (connexion)
-            {
-                str.update(sender, e);
-            }
         }
 
         /// <summary>
@@ -103,12 +93,14 @@ namespace AdminForm
                 str.Init(uNameTB.Text, oAuthTB.Text);
                 connexion = true;
                 connexionBT.Text = "Déconnexion";
+                connexionBT.FlatAppearance.BorderColor = Color.Green;
             }
             else
             {
                 str.Dispose();
                 connexion = false;
                 connexionBT.Text = "Connexion";
+                connexionBT.FlatAppearance.BorderColor = Color.Red;
             }
         }
 
@@ -119,8 +111,13 @@ namespace AdminForm
         {
             int i = 0;
             MotBanniUpdate();
-            MotPeriodiqueUpdate();
-            ajouter = new FormAjout(this);
+            MessagePeriodiqueUpdate();
+            ajouterInsultes = new FormAjout();
+            ajouterMessagesPeriodique = new FormAjoutPerio();
+            connexionBT.FlatStyle = FlatStyle.Flat;
+            connexionBT.FlatAppearance.BorderColor = Color.Red;
+            pauseBT.FlatStyle = FlatStyle.Flat;
+            pauseBT.FlatAppearance.BorderColor = Color.Red;
         }
 
         /// <summary>
@@ -137,10 +134,11 @@ namespace AdminForm
             }
             LbMotBanni.Refresh();
         }
+
         /// <summary>
         /// Mise à jour du ListBox contenant les messagesPeriodiques
         /// </summary>
-        public void MotPeriodiqueUpdate()
+        public void MessagePeriodiqueUpdate()
         {
             string sMot = File.ReadAllText("MessagesPerio.txt");
             string[] mots = sMot.Split(',');
@@ -151,18 +149,7 @@ namespace AdminForm
             }
             LbMessagePeriodique.Refresh();
         }
-
-        /// <summary>
-        /// Force le focus sur la fenetre d'ajout d'insultes tant qu'elle est affiché
-        /// </summary>
-        private void Form1_Click(object sender, EventArgs e)
-        {
-            if (ajouter.affiche)
-            {
-                ajouter.Focus();
-            }
-        }
-
+        
         /// <summary>
         /// Suppression de l'insulte séléctionné dans le ListBox
         /// </summary>
@@ -170,19 +157,19 @@ namespace AdminForm
         {
             if (LbMotBanni.SelectedIndex >= 0)
             {
-            string sMot = File.ReadAllText("Insultes.txt");
-            string[] mots = sMot.Split(',');
-                string motASupprimer = LbMotBanni.Items[LbMotBanni.SelectedIndex].ToString(); 
-            string tampList = "";
-            foreach (string mot  in mots)
-            {
-                if (!mot.Equals(motASupprimer))
+                string sMot = File.ReadAllText("Insultes.txt");
+                string[] mots = sMot.Split(',');
+                    string motASupprimer = LbMotBanni.Items[LbMotBanni.SelectedIndex].ToString(); 
+                string tampList = "";
+                foreach (string mot  in mots)
                 {
-                    tampList += "," + mot.TrimEnd('\n').TrimStart('\n'); 
+                    if (!mot.Equals(motASupprimer))
+                    {
+                        tampList += "," + mot.TrimEnd('\n').TrimStart('\n'); 
+                    }
                 }
-            }
-            File.WriteAllText("Insultes.txt", tampList.TrimEnd(',').TrimStart(','));
-            this.MotBanniUpdate();
+                File.WriteAllText("Insultes.txt", tampList.TrimEnd(',').TrimStart(','));
+                this.MotBanniUpdate();
             }
         }
 
@@ -191,9 +178,113 @@ namespace AdminForm
         /// </summary>
         private void btAjouter_MouseClick(object sender, MouseEventArgs e)
         {
-            ajouter = new FormAjout(this);
-            ajouter.Show();
+            ajouterInsultes = new FormAjout();
+            DialogResult diag = ajouterInsultes.ShowDialog();
+            if (diag == DialogResult.OK)
+            {
+                string sMot = File.ReadAllText("Insultes.txt");
+                string[] mots = sMot.Split(',');
+                string ajoutMot = ajouterInsultes.getMots();
+                string[] splitAjoutMot = ajoutMot.Split(',');
+                string trimedWord;
+                bool inList;
+                foreach (string motAAjouter in splitAjoutMot)
+                {
+                    trimedWord = motAAjouter.TrimStart(' ').TrimEnd(' ');
+                    mots = sMot.Split(',');
+                    inList = false;
+                    foreach (string mot in mots)
+                    {
+                        if (trimedWord.Equals(mot))
+                        {
+                            inList = true;
+                        }
+                    }
+                    if (!inList)
+                    {
+                        sMot += "," + trimedWord;
+                    }
+                }
+                File.WriteAllText("Insultes.txt", sMot);
+                MotBanniUpdate();
+            }
         }
-        
+
+        /// <summary>
+        /// Affiche la fenetre d'ajout de messages periodique
+        /// </summary>
+        private void Bplus_MouseClick(object sender, MouseEventArgs e)
+        {
+            ajouterMessagesPeriodique = new FormAjoutPerio();
+            DialogResult diag = ajouterMessagesPeriodique.ShowDialog();
+            if (diag == DialogResult.OK)
+            {
+                string sMot = File.ReadAllText("MessagesPerio.txt");
+                string[] mots = sMot.Split(',');
+                string ajoutMot = ajouterMessagesPeriodique.getMots();
+                string[] splitAjoutMot = ajoutMot.Split(',');
+                string trimedWord;
+                bool inList;
+                foreach (string motAAjouter in splitAjoutMot)
+                {
+                    trimedWord = motAAjouter.TrimStart(' ').TrimEnd(' ');
+                    mots = sMot.Split(',');
+                    inList = false;
+                    foreach (string mot in mots)
+                    {
+                        if (trimedWord.Equals(mot))
+                        {
+                            inList = true;
+                        }
+                    }
+                    if (!inList)
+                    {
+                        sMot += "," + trimedWord;
+                    }
+                }
+                File.WriteAllText("MessagesPerio.txt", sMot);
+                MessagePeriodiqueUpdate();
+            }
+        }
+
+        /// <summary>
+        /// Supprimer le message séléctionné dans le ListBox
+        /// </summary>
+        private void button1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (LbMessagePeriodique.SelectedIndex >= 0)
+            {
+                string sMessage = File.ReadAllText("MessagesPerio.txt");
+                string[] messages = sMessage.Split(',');
+                string messageASupprimer = LbMessagePeriodique.Items[LbMessagePeriodique.SelectedIndex].ToString();
+                string tampList = "";
+                foreach (string message in messages)
+                {
+                    if (!message.Equals(messageASupprimer))
+                    {
+                        tampList += "," + message.TrimEnd('\n').TrimStart('\n');
+                    }
+                }
+                File.WriteAllText("MessagesPerio.txt", tampList.TrimEnd(',').TrimStart(','));
+                this.MessagePeriodiqueUpdate();
+            }
+        }
+
+        private void pauseBT_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (pause)
+            {
+                str.start();
+                pause = false;
+                pauseBT.Text = "Pause bot";
+                pauseBT.FlatAppearance.BorderColor = Color.Green;
+            }else
+            {
+                str.stop();
+                pause = true;
+                pauseBT.Text = "Start bot";
+                pauseBT.FlatAppearance.BorderColor = Color.Red;
+            }
+        }
     }
 }

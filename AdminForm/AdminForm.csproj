@@ -72,6 +72,9 @@
     <EmbeddedResource Include="FormAjout.resx">
       <DependentUpon>FormAjout.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormAjoutPerio.resx">
+      <DependentUpon>FormAjoutPerio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -99,6 +102,14 @@
       <Project>{93cb961a-f46e-4f97-b510-7f277120b6ae}</Project>
       <Name>RandomCensures</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Insultes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MessagesPerio.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
