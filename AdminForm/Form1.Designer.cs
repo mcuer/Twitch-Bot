@@ -235,7 +235,6 @@ namespace AdminForm
             this.btAjouter.TabIndex = 18;
             this.btAjouter.Text = "Ajouter";
             this.btAjouter.UseVisualStyleBackColor = true;
-            this.btAjouter.Click += new System.EventHandler(this.btAjouter_Click);
             this.btAjouter.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btAjouter_MouseClick);
             // 
             // button2

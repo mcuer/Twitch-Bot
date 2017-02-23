@@ -168,10 +168,6 @@ namespace AdminForm
             ajouter = new FormAjout(this);
             ajouter.Show();
         }
-
-        private void btAjouter_Click(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

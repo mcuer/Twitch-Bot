@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cadeau.cs" />
     <Compile Include="IChatCommandMod.cs" />
     <Compile Include="MessageUtilisateur.cs" />
     <Compile Include="Stream.cs" />

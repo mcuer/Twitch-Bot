@@ -43,6 +43,7 @@ namespace RandomCensures
             resetEvent = new AutoResetEvent(false);
             thread = new Thread(Run);
         }
+        
         /// <summary>
         /// Démmarre le vote en affichant les possibilités
         /// </summary>
@@ -57,6 +58,7 @@ namespace RandomCensures
             OriginBot.SendMessage("vote", message);
             resetEvent.Set();
         }
+        
         /// <summary>
         /// Ajoute un vote
         /// </summary>
@@ -71,6 +73,7 @@ namespace RandomCensures
             this.votant.Add(votant);
             this.voteResults[voteValue]++;
         }
+        
         /// <summary>
         /// Arrete le vote en cours, et affiche les résultats
         /// </summary>
