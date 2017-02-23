@@ -136,27 +136,19 @@ namespace RandomCensures
                 if (sendMessageQueue.Count > 0)
                 {
                     var message = sendMessageQueue.Dequeue();
+                    string messageAT = message.Split('@')[0];
+                    string messageDot = message.Split(':')[2];
                     Console.WriteLine(message);
                     writer.WriteLine($"{message}");
                     lastMessage = DateTime.Now;
                     wait = 2;
-                    if (message.Split('@')[0].Contains(userName) && message.Split(':')[2].Contains("/followers"))
-                    {
-                        message = sendMessageQueue.Dequeue();
-                        Console.WriteLine(message);
-                        writer.WriteLine($"{message}");
-                        wait = 4;
-                        return;
-                    }
-                    if (message.Split('@')[0].Contains(userName) && message.Split(':')[2].Contains("/timeout"))
-                    {
-                        message = sendMessageQueue.Dequeue();
-                        Console.WriteLine(message);
-                        writer.WriteLine($"{message}");
-                        wait = 4;
-                        return;
-                    }
-                    if (message.Split('@')[0].Contains(userName) && message.Split(':')[2].Contains("/followersoff"))
+                    if (messageAT.Contains(userName) 
+                        && ( messageDot.Contains("/followersoff") 
+                            || messageDot.Contains("/followers") 
+                            || messageDot.Contains("/timeout")
+                            || messageDot.Contains("récompense")
+                            )
+                        ) 
                     {
                         message = sendMessageQueue.Dequeue();
                         Console.WriteLine(message);
@@ -240,10 +232,17 @@ namespace RandomCensures
                         return;
                     }
                 }
-                if (message.Contains("http"))
+
+                foreach (string mot in message.Split(' '))
                 {
-                    SendMessage("timeout", speaker);
-                    return;
+                    Uri uriResult;
+                    bool result = Uri.TryCreate(mot, UriKind.Absolute, out uriResult)
+                        && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+                    if (result)
+                    {
+                        SendMessage("timeout", speaker);
+                        return;
+                    } 
                 }
                 if (message.StartsWith("!hi"))
                 {
@@ -297,18 +296,6 @@ namespace RandomCensures
         {
             switch (command)
             {
-                //case "!hi":
-                //    sendMessageQueue.Enqueue(chatMessagePrefix + message);
-                //    break;
-                //case "!commande":
-                //    sendMessageQueue.Enqueue(chatMessagePrefix + message);
-                //    break;
-                //case "timerMessage":
-                //    sendMessageQueue.Enqueue(chatMessagePrefix + message);
-                //    break;
-                //case "vote":
-                //    sendMessageQueue.Enqueue(chatMessagePrefix + message );
-                //    break;
                 case "timeout":
                     sendMessageQueue.Enqueue(chatMessagePrefix + "/timeout " + message + " 10"); //TODO mettre à 15 minutes
                     sendMessageQueue.Enqueue(chatMessagePrefix + message + " vous n'avez pas respecté les régles (Ban de 15 minutes!)");

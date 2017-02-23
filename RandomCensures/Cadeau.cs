@@ -49,9 +49,10 @@ namespace RandomCensures
         public void cadeauStart()
         {
             string message = "Une récompense est mise en jeu!";
-            message += "\nPour participer envoyer un message commençant par '!participe'!";
-            started = true;
             OriginBot.SendMessage("cadeau", message);
+            message = "Pour participer envoyer un message commençant par '!participe'!";
+            OriginBot.SendMessage("cadeau", message);
+            started = true;
             resetEvent.Set();
         }
 
@@ -66,9 +67,10 @@ namespace RandomCensures
                 this.timerInSeconde = timerInSeconde;
             }
             string message = "Une récompense est mise en jeu!";
-            message += "\nPour participer envoyer un message commençant par '!participe'!";
-            started = true;
             OriginBot.SendMessage("cadeau", message);
+            message = "Pour participer envoyer un message commençant par '!participe'!";
+            OriginBot.SendMessage("cadeau", message);
+            started = true;
             resetEvent.Set();
         }
 
@@ -76,7 +78,7 @@ namespace RandomCensures
         /// Ajoute une participation
         /// </summary>
         /// <param name="partcipant">est le nom(pseudo) de la personne qui participer</param>
-        public void cadeauAdd(string partcipant)
+        public void cadeauAdd(string partcipant) 
         {
             if (!this.participant.Contains(partcipant))
             {
@@ -90,9 +92,10 @@ namespace RandomCensures
         public void cadeauStop()
         {
             string message = "La participation pour la récompense est terminé!";
-            message += $"\nLe gagnant est : {participant.ElementAt(rand.Next(0, participant.Count-1))}";
-            started = false;
             OriginBot.SendMessage("cadeau", message);
+            message = $"Le gagnant est : {participant.ElementAt(rand.Next(0, participant.Count-1))}";
+            OriginBot.SendMessage("cadeau", message);
+            started = false;
         }
 
         /// <summary>
