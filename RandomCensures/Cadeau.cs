@@ -36,7 +36,7 @@ namespace RandomCensures
             }
             else
             {
-                this.timerInSeconde = 120;
+                this.timerInSeconde = 300;
             }
             started = false;
             resetEvent = new AutoResetEvent(false);

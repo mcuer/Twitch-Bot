@@ -40,7 +40,7 @@ namespace RandomCensures
                 this.timerInSeconde = timerInSeconde;
             }else
             {
-                this.timerInSeconde = 120;
+                this.timerInSeconde = 300;
             }
             resetEvent = new AutoResetEvent(false);
             thread = new Thread(Run);
