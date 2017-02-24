@@ -10,6 +10,7 @@ namespace RandomCensures
 {
     public class Stream : IDisposable
     {
+        public Vote vote;
         private bool enPause;
         private Timer timer;
         private StreamReader reader { get; set; }
@@ -81,7 +82,7 @@ namespace RandomCensures
             timer.Elapsed += new ElapsedEventHandler(update);
             timer.Interval = 100;
             timer.Enabled = true;
-            this.stop();
+            enPause = true;
             this.userName = uName.ToLower();
             this.channelName = this.userName;
             this.oAuth = oAuth;
@@ -195,22 +196,28 @@ namespace RandomCensures
         {
             if (tcpClient.Available > 0 || reader.Peek() >= 0)
             {
-                var message = reader.ReadLine();
-                Console.WriteLine(message);
-                var iCollon = message.IndexOf(":",1);
-                if (iCollon > 0)
+                try
                 {
-                    var command = message.Substring(1, iCollon);
-                    if (command.Contains(chatCommandId))
+                    var message = reader.ReadLine();
+                    Console.WriteLine(message);
+                    var iCollon = message.IndexOf(":", 1);
+                    if (iCollon > 0)
                     {
-                        var iBang = command.IndexOf("!");
-                        if (iBang > 0)
+                        var command = message.Substring(1, iCollon);
+                        if (command.Contains(chatCommandId))
                         {
-                            var speaker = command.Substring(0, iBang);
-                            var chatMessage = message.Substring(iCollon + 1);
-                            ReceiveMessage(speaker, chatMessage);
+                            var iBang = command.IndexOf("!");
+                            if (iBang > 0)
+                            {
+                                var speaker = command.Substring(0, iBang);
+                                var chatMessage = message.Substring(iCollon + 1);
+                                ReceiveMessage(speaker, chatMessage);
+                            }
                         }
                     }
+                }
+                catch (Exception e)
+                {
                 }
             }
         }
@@ -287,6 +294,20 @@ namespace RandomCensures
                         if (cadeau.started)
                         {
                             cadeau.cadeauAdd(speaker);
+                        }
+                    }
+                    if (message.StartsWith("!vote"))
+                    {
+                        int voteValues = -1;
+                        try
+                        {
+                            voteValues = Convert.ToInt16(message.Split(' ')[1]);
+                        }catch
+                        {
+                        }
+                        if (voteValues > 0)
+                        {
+                            vote.voteAdd(speaker, voteValues);
                         }
                     }
                     foreach (var processor in chatProcessors)

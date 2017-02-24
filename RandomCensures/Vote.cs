@@ -57,11 +57,10 @@ namespace RandomCensures
             OriginBot.SendMessage("vote", message);
             for (int i = 1; i < voteValues.Count()+1; i++)
             {
-                message = $"\n{i} - {voteValues.ElementAt(i-1)}";
+                message = $"{i} - {voteValues.ElementAt(i-1)}";
                 OriginBot.SendMessage("vote", message);
             }
             started = true;
-            OriginBot.SendMessage("vote", message);
             resetEvent.Set();
         }
 
@@ -84,7 +83,6 @@ namespace RandomCensures
                 OriginBot.SendMessage("vote", message);
             }
             started = true;
-            OriginBot.SendMessage("vote", message);
             resetEvent.Set();
         }
 
@@ -95,10 +93,18 @@ namespace RandomCensures
         /// <param name="voteValue">est l'index correspondant à son choix pour le vote</param>
         public void voteAdd(string votant, int voteValue)
         {
-            if (!this.votant.Contains(votant))
+            bool inList = false;
+            foreach (string nom in this.votant)
+            {
+                if (nom.Equals(votant))
+                {
+                    inList = true;
+                }
+            }
+            if (!inList)
             {
                 this.votant.Add(votant);
-                this.voteResults[voteValue]++;
+                this.voteResults[voteValue-1]++;
             }
         }
         

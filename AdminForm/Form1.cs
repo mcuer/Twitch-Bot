@@ -22,7 +22,6 @@ namespace AdminForm
         private bool connexion = false;
         private bool pause = true;
         private bool voteStarted = false;
-        private Vote vote;
         private RandomCensures.Stream str;
 
 
@@ -38,7 +37,7 @@ namespace AdminForm
         /// TODO à supprimer proprement
         private void timer2_Tick(object sender, EventArgs e)
         {
-            if (connexion)
+            if (connexion && pause != true)
             {
                 
                 if(i < LbMessagePeriodique.Items.Count)
@@ -58,8 +57,11 @@ namespace AdminForm
         /// </summary>
         private void CbUniqAbo_CheckedChanged(object sender, EventArgs e)
         {
-            str.member = CbUniqAbo.Checked;
-            str.MemberOnly();
+            if (pause != true)
+            {
+                str.member = CbUniqAbo.Checked;
+                str.MemberOnly(); 
+            }
 
         }
 
@@ -68,16 +70,19 @@ namespace AdminForm
         /// </summary>
         private void CbAntiFlood_CheckedChanged(object sender, EventArgs e)
         {
-            int floodLimit;
-            try
+            if (pause != true)
             {
-                floodLimit = Int32.Parse(TbNbMess.Text);
+                int floodLimit;
+                try
+                {
+                    floodLimit = Int32.Parse(TbNbMess.Text);
+                }
+                catch (Exception)
+                {
+                    floodLimit = 5;
+                }
+                str.setAntiflood(CbAntiFlood.Checked, floodLimit);
             }
-            catch (Exception)
-            {
-                floodLimit = 5;
-            }
-            str.setAntiflood(CbAntiFlood.Checked, floodLimit);
         }
 
         /// <summary>
@@ -104,6 +109,7 @@ namespace AdminForm
             {
                 str.Dispose();
                 connexion = false;
+                this.pauseBT_MouseClick(sender, e);
                 connexionBT.Text = "Connexion";
                 connexionBT.FlatAppearance.BorderColor = Color.Red;
             }
@@ -309,14 +315,17 @@ namespace AdminForm
         /// </summary>
         private void btLancerVote_MouseClick(object sender, MouseEventArgs e)
         {
-            string[] voteValues = new string[lbVote.Items.Count];
-            for (int i = 0; i < lbVote.Items.Count; i++)
+            if (pause != true)
             {
-                voteValues[i] = lbVote.Items[i].ToString();
+                string[] voteValues = new string[lbVote.Items.Count];
+                for (int i = 0; i < lbVote.Items.Count; i++)
+                {
+                    voteValues[i] = lbVote.Items[i].ToString();
+                }
+                str.vote = new Vote(str, voteValues, 0);
+                str.vote.voteStart();
+                voteStarted = true;
             }
-            vote = new Vote(str, voteValues , 0);
-            vote.voteStart();
-            voteStarted = true;
         }
 
         /// <summary>
@@ -354,9 +363,9 @@ namespace AdminForm
         /// </summary>
         private void tbStopVote_MouseClick(object sender, MouseEventArgs e)
         {
-            if (voteStarted)
+            if (voteStarted && pause != true)
             {
-                vote.voteStop();
+                str.vote.voteStop();
                 voteStarted = false;
             }
         }
