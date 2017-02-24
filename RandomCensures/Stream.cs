@@ -10,7 +10,7 @@ namespace RandomCensures
 {
     public class Stream : IDisposable
     {
-        private Timer timerEnPause;
+        private bool enPause;
         private Timer timer;
         private StreamReader reader { get; set; }
         private StreamWriter writer { get; set; }
@@ -77,9 +77,6 @@ namespace RandomCensures
         /// <param name="oAuth">oAuth de l'utilisateur</param>
         public void Init (string uName, string oAuth )
         {
-            this.timerEnPause = new Timer();
-            timerEnPause.Elapsed += new ElapsedEventHandler(update);
-            timerEnPause.Interval = 100;
             this.timer = new Timer();
             timer.Elapsed += new ElapsedEventHandler(update);
             timer.Interval = 100;
@@ -146,8 +143,7 @@ namespace RandomCensures
         /// </summary>
         public void start()
         {
-            timer.Enabled = true;
-            timerEnPause.Enabled = false;
+            enPause = false;
         }
 
         /// <summary>
@@ -155,8 +151,7 @@ namespace RandomCensures
         /// </summary>
         public void stop()
         {
-            timer.Enabled = false;
-            timerEnPause.Enabled = true;
+            enPause = true;
         }
         /// <summary>
         /// Envoie les messages au chat
@@ -226,7 +221,7 @@ namespace RandomCensures
         /// <param name="message">Son message</param>
         private void ReceiveMessage (string speaker, string message)
         {
-            if (timer.Enabled)
+            if (!enPause)
             {
                 //String.Compare("", "", true, CultureInfo);
                 string sMot = File.ReadAllText("Insultes.txt");
@@ -329,7 +324,7 @@ namespace RandomCensures
         /// <param name="message">Le message à écrire</param>
         public void SendMessage(string command,string message)
         {
-            if (timer.Enabled)
+            if (!enPause)
             {
                 switch (command)
                 {

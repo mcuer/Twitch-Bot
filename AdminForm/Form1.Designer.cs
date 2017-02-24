@@ -53,6 +53,13 @@ namespace AdminForm
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.pauseBT = new System.Windows.Forms.Button();
+            this.lbVote = new System.Windows.Forms.ListBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.btAjoutVoteValue = new System.Windows.Forms.Button();
+            this.btSupprVoteValue = new System.Windows.Forms.Button();
+            this.btLancerVote = new System.Windows.Forms.Button();
+            this.btReinitVote = new System.Windows.Forms.Button();
+            this.tbStopVote = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -69,13 +76,13 @@ namespace AdminForm
             this.LbMotBanni.FormattingEnabled = true;
             this.LbMotBanni.Location = new System.Drawing.Point(15, 112);
             this.LbMotBanni.Name = "LbMotBanni";
-            this.LbMotBanni.Size = new System.Drawing.Size(234, 160);
+            this.LbMotBanni.Size = new System.Drawing.Size(191, 160);
             this.LbMotBanni.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(320, 88);
+            this.label2.Location = new System.Drawing.Point(239, 88);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 13);
             this.label2.TabIndex = 2;
@@ -140,7 +147,7 @@ namespace AdminForm
             // 
             // Bplus
             // 
-            this.Bplus.Location = new System.Drawing.Point(433, 83);
+            this.Bplus.Location = new System.Drawing.Point(348, 83);
             this.Bplus.Name = "Bplus";
             this.Bplus.Size = new System.Drawing.Size(64, 23);
             this.Bplus.TabIndex = 10;
@@ -157,9 +164,9 @@ namespace AdminForm
             // LbMessagePeriodique
             // 
             this.LbMessagePeriodique.FormattingEnabled = true;
-            this.LbMessagePeriodique.Location = new System.Drawing.Point(323, 112);
+            this.LbMessagePeriodique.Location = new System.Drawing.Point(242, 112);
             this.LbMessagePeriodique.Name = "LbMessagePeriodique";
-            this.LbMessagePeriodique.Size = new System.Drawing.Size(255, 160);
+            this.LbMessagePeriodique.Size = new System.Drawing.Size(240, 160);
             this.LbMessagePeriodique.TabIndex = 3;
             // 
             // uNameTB
@@ -217,7 +224,7 @@ namespace AdminForm
             // 
             // btAjouter
             // 
-            this.btAjouter.Location = new System.Drawing.Point(107, 83);
+            this.btAjouter.Location = new System.Drawing.Point(73, 83);
             this.btAjouter.Name = "btAjouter";
             this.btAjouter.Size = new System.Drawing.Size(64, 23);
             this.btAjouter.TabIndex = 18;
@@ -227,7 +234,7 @@ namespace AdminForm
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(177, 83);
+            this.button2.Location = new System.Drawing.Point(143, 83);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(64, 23);
             this.button2.TabIndex = 19;
@@ -237,7 +244,7 @@ namespace AdminForm
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(503, 83);
+            this.button1.Location = new System.Drawing.Point(418, 83);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(64, 23);
             this.button1.TabIndex = 20;
@@ -255,11 +262,85 @@ namespace AdminForm
             this.pauseBT.UseVisualStyleBackColor = true;
             this.pauseBT.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pauseBT_MouseClick);
             // 
+            // lbVote
+            // 
+            this.lbVote.FormattingEnabled = true;
+            this.lbVote.Location = new System.Drawing.Point(518, 112);
+            this.lbVote.Name = "lbVote";
+            this.lbVote.Size = new System.Drawing.Size(214, 160);
+            this.lbVote.TabIndex = 22;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(515, 88);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(70, 13);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Vote possible";
+            // 
+            // btAjoutVoteValue
+            // 
+            this.btAjoutVoteValue.Location = new System.Drawing.Point(598, 83);
+            this.btAjoutVoteValue.Name = "btAjoutVoteValue";
+            this.btAjoutVoteValue.Size = new System.Drawing.Size(64, 23);
+            this.btAjoutVoteValue.TabIndex = 24;
+            this.btAjoutVoteValue.Text = "Ajouter";
+            this.btAjoutVoteValue.UseVisualStyleBackColor = true;
+            this.btAjoutVoteValue.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btAjoutVoteValue_MouseClick);
+            // 
+            // btSupprVoteValue
+            // 
+            this.btSupprVoteValue.Location = new System.Drawing.Point(668, 83);
+            this.btSupprVoteValue.Name = "btSupprVoteValue";
+            this.btSupprVoteValue.Size = new System.Drawing.Size(64, 23);
+            this.btSupprVoteValue.TabIndex = 25;
+            this.btSupprVoteValue.Text = "Supprimer";
+            this.btSupprVoteValue.UseVisualStyleBackColor = true;
+            this.btSupprVoteValue.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btSupprVoteValue_MouseClick);
+            // 
+            // btLancerVote
+            // 
+            this.btLancerVote.Location = new System.Drawing.Point(598, 278);
+            this.btLancerVote.Name = "btLancerVote";
+            this.btLancerVote.Size = new System.Drawing.Size(64, 23);
+            this.btLancerVote.TabIndex = 26;
+            this.btLancerVote.Text = "Lancer";
+            this.btLancerVote.UseVisualStyleBackColor = true;
+            this.btLancerVote.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btLancerVote_MouseClick);
+            // 
+            // btReinitVote
+            // 
+            this.btReinitVote.Location = new System.Drawing.Point(518, 278);
+            this.btReinitVote.Name = "btReinitVote";
+            this.btReinitVote.Size = new System.Drawing.Size(68, 23);
+            this.btReinitVote.TabIndex = 27;
+            this.btReinitVote.Text = "Réinitialiser";
+            this.btReinitVote.UseVisualStyleBackColor = true;
+            this.btReinitVote.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btReinitVote_MouseClick);
+            // 
+            // tbStopVote
+            // 
+            this.tbStopVote.Location = new System.Drawing.Point(668, 278);
+            this.tbStopVote.Name = "tbStopVote";
+            this.tbStopVote.Size = new System.Drawing.Size(64, 23);
+            this.tbStopVote.TabIndex = 28;
+            this.tbStopVote.Text = "Arrêter";
+            this.tbStopVote.UseVisualStyleBackColor = true;
+            this.tbStopVote.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbStopVote_MouseClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(590, 354);
+            this.ClientSize = new System.Drawing.Size(744, 354);
+            this.Controls.Add(this.tbStopVote);
+            this.Controls.Add(this.btReinitVote);
+            this.Controls.Add(this.btLancerVote);
+            this.Controls.Add(this.btSupprVoteValue);
+            this.Controls.Add(this.btAjoutVoteValue);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.lbVote);
             this.Controls.Add(this.pauseBT);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button2);
@@ -315,6 +396,13 @@ namespace AdminForm
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button pauseBT;
+        private System.Windows.Forms.ListBox lbVote;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btAjoutVoteValue;
+        private System.Windows.Forms.Button btSupprVoteValue;
+        private System.Windows.Forms.Button btLancerVote;
+        private System.Windows.Forms.Button btReinitVote;
+        private System.Windows.Forms.Button tbStopVote;
     }
 }
 

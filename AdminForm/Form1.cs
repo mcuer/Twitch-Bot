@@ -17,10 +17,15 @@ namespace AdminForm
     {
         FormAjout ajouterInsultes;
         FormAjoutPerio ajouterMessagesPeriodique;
+        FormAjoutVoteValues ajouterVoteValues;
         private int i;
         private bool connexion = false;
         private bool pause = true;
+        private bool voteStarted = false;
+        private Vote vote;
         private RandomCensures.Stream str;
+
+
         public Form1()
         {
             InitializeComponent();
@@ -114,6 +119,7 @@ namespace AdminForm
             MessagePeriodiqueUpdate();
             ajouterInsultes = new FormAjout();
             ajouterMessagesPeriodique = new FormAjoutPerio();
+            ajouterVoteValues = new FormAjoutVoteValues();
             connexionBT.FlatStyle = FlatStyle.Flat;
             connexionBT.FlatAppearance.BorderColor = Color.Red;
             pauseBT.FlatStyle = FlatStyle.Flat;
@@ -151,7 +157,7 @@ namespace AdminForm
         }
         
         /// <summary>
-        /// Suppression de l'insulte séléctionné dans le ListBox
+        /// Suppression de l'insulte sélectionné dans le ListBox
         /// </summary>
         private void button2_MouseClick(object sender, MouseEventArgs e)
         {
@@ -221,7 +227,7 @@ namespace AdminForm
             {
                 string sMot = File.ReadAllText("MessagesPerio.txt");
                 string[] mots = sMot.Split(',');
-                string ajoutMot = ajouterMessagesPeriodique.getMots();
+                string ajoutMot = ajouterMessagesPeriodique.getMessagesPerio();
                 string[] splitAjoutMot = ajoutMot.Split(',');
                 string trimedWord;
                 bool inList;
@@ -248,7 +254,7 @@ namespace AdminForm
         }
 
         /// <summary>
-        /// Supprimer le message séléctionné dans le ListBox
+        /// Supprimer le message sélectionné dans le ListBox
         /// </summary>
         private void button1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -270,6 +276,9 @@ namespace AdminForm
             }
         }
 
+        /// <summary>
+        /// Met le bot en pause
+        /// </summary>
         private void pauseBT_MouseClick(object sender, MouseEventArgs e)
         {
             if (pause)
@@ -284,6 +293,71 @@ namespace AdminForm
                 pause = true;
                 pauseBT.Text = "Start bot";
                 pauseBT.FlatAppearance.BorderColor = Color.Red;
+            }
+        }
+
+        /// <summary>
+        /// Remet à zero le listBox contenant les valeurs possible pour le vote
+        /// </summary>
+        private void btReinitVote_MouseClick(object sender, MouseEventArgs e)
+        {
+            lbVote.Items.Clear();
+        }
+
+        /// <summary>
+        /// Lance le vote si aucun vote n'est déjà lancé
+        /// </summary>
+        private void btLancerVote_MouseClick(object sender, MouseEventArgs e)
+        {
+            string[] voteValues = new string[lbVote.Items.Count];
+            for (int i = 0; i < lbVote.Items.Count; i++)
+            {
+                voteValues[i] = lbVote.Items[i].ToString();
+            }
+            vote = new Vote(str, voteValues , 0);
+            vote.voteStart();
+            voteStarted = true;
+        }
+
+        /// <summary>
+        /// Ouvre la fenetre d'ajout de valeurs possible pour le prochain vote
+        /// </summary>
+        private void btAjoutVoteValue_MouseClick(object sender, MouseEventArgs e)
+        {
+            ajouterVoteValues = new FormAjoutVoteValues();
+            DialogResult diag = ajouterVoteValues.ShowDialog();
+            if (diag == DialogResult.OK)
+            {
+                string voteValues = ajouterVoteValues.getVoteValues();
+                string[] splitValues = voteValues.Split(',');
+                foreach (string value in splitValues)
+                {
+                    string trimedValue = value.TrimStart(' ').TrimEnd(' ');
+                    if (!lbVote.Items.Contains(trimedValue))
+                    {
+                        lbVote.Items.Add(trimedValue);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Supprime la ligne sélectionné dans la listBox lbVote
+        /// </summary>
+        private void btSupprVoteValue_MouseClick(object sender, MouseEventArgs e)
+        {
+            lbVote.Items.RemoveAt(lbVote.SelectedIndex);
+        }
+
+        /// <summary>
+        /// Met fin au vote précédemment lancé
+        /// </summary>
+        private void tbStopVote_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (voteStarted)
+            {
+                vote.voteStop();
+                voteStarted = false;
             }
         }
     }

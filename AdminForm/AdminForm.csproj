@@ -64,6 +64,12 @@
     <Compile Include="FormAjout.Designer.cs">
       <DependentUpon>FormAjout.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAjoutVoteValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAjoutVoteValues.Designer.cs">
+      <DependentUpon>FormAjoutVoteValues.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -74,6 +80,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormAjoutPerio.resx">
       <DependentUpon>FormAjoutPerio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAjoutVoteValues.resx">
+      <DependentUpon>FormAjoutVoteValues.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -110,6 +119,9 @@
     <Content Include="MessagesPerio.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mods\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

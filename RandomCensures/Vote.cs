@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace RandomCensures
 {
-    class Vote
+    public class Vote
     {
         AutoResetEvent resetEvent;
         Thread thread;
@@ -99,7 +99,7 @@ namespace RandomCensures
         /// <summary>
         /// Arrete le vote en cours, et affiche les résultats
         /// </summary>
-        private void voteStop()
+        public void voteStop()
         {
             string message = "Le vote est fini!";
             message += "\nVoici les résultats :";

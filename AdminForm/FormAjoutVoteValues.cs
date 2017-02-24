@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +11,10 @@ using System.Windows.Forms;
 
 namespace AdminForm
 {
-    public partial class FormAjoutPerio : Form
+    public partial class FormAjoutVoteValues : Form
     {
-        public FormAjoutPerio()
+
+        public FormAjoutVoteValues()
         {
             InitializeComponent();
         }
@@ -26,7 +28,7 @@ namespace AdminForm
             this.DialogResult = DialogResult.OK;
         }
 
-        public string getMessagesPerio()
+        public string getVoteValues()
         {
             return ajoutMotTB.Text;
         }
