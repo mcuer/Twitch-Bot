@@ -80,6 +80,7 @@ namespace RandomCensures
             this.timer = new Timer();
             timer.Elapsed += new ElapsedEventHandler(update);
             timer.Interval = 100;
+            timer.Enabled = true;
             this.stop();
             this.userName = uName.ToLower();
             this.channelName = this.userName;
@@ -158,8 +159,8 @@ namespace RandomCensures
         /// </summary>
         private void TrySendingMessages()
         {
-            if (DateTime.Now - lastMessage > TimeSpan.FromSeconds(wait))
-            {
+            //if (DateTime.Now - lastMessage > TimeSpan.FromSeconds(wait))
+            //{
                 if (sendMessageQueue.Count > 0)
                 {
                     var message = sendMessageQueue.Dequeue();
@@ -184,7 +185,7 @@ namespace RandomCensures
                         return;
                     }
                 }
-            }
+            //}
         }
 
         /// <summary>

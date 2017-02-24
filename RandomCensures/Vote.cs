@@ -52,10 +52,13 @@ namespace RandomCensures
         public void voteStart()
         {
             string message = "Le vote commence!";
-            message += "\nLes valeurs possible sont les suivantes :";
-            for(int i = 1; i < voteValues.Count()+1; i++)
+            OriginBot.SendMessage("vote", message);
+            message = "Les valeurs possible sont les suivantes :";
+            OriginBot.SendMessage("vote", message);
+            for (int i = 1; i < voteValues.Count()+1; i++)
             {
-                message += $"\n{i} - {voteValues.ElementAt(i-1)}";
+                message = $"\n{i} - {voteValues.ElementAt(i-1)}";
+                OriginBot.SendMessage("vote", message);
             }
             started = true;
             OriginBot.SendMessage("vote", message);
@@ -72,10 +75,13 @@ namespace RandomCensures
                 this.timerInSeconde = timerInSeconde;
             }
             string message = "Le vote commence!";
-            message += "\nLes valeurs possible sont les suivantes :";
+            OriginBot.SendMessage("vote", message);
+            message = "Les valeurs possible sont les suivantes :";
+            OriginBot.SendMessage("vote", message);
             for (int i = 1; i < voteValues.Count() + 1; i++)
             {
-                message += $"\n{i} - {voteValues.ElementAt(i - 1)}";
+                message = $"{i} - {voteValues.ElementAt(i - 1)}";
+                OriginBot.SendMessage("vote", message);
             }
             started = true;
             OriginBot.SendMessage("vote", message);
@@ -102,13 +108,15 @@ namespace RandomCensures
         public void voteStop()
         {
             string message = "Le vote est fini!";
-            message += "\nVoici les résultats :";
+            OriginBot.SendMessage("vote", message);
+            message = "Voici les résultats :";
+            OriginBot.SendMessage("vote", message);
             for (int i = 1; i < voteValues.Count() + 1; i++)
             {
-                message += $"\n{i} - {voteValues.ElementAt(i - 1)} : {voteResults.ElementAt(i-1)} vote";
+                message = $"{i} - {voteValues.ElementAt(i - 1)} : {voteResults.ElementAt(i-1)} vote";
+                OriginBot.SendMessage("vote", message);
             }
             started = false;
-            OriginBot.SendMessage("vote", message);
         }
 
         /// <summary>
