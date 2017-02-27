@@ -12,7 +12,7 @@ namespace RandomCensures
         Thread thread;
         private List<string> votant { get; set; }
         private string[] voteValues { get; set; }
-        private Stream OriginBot { get; set; }
+        private Bot OriginBot { get; set; }
         private int timerInSeconde { get; set; }
         private int[] voteResults { get; set; }
         public bool started { get; set; }
@@ -24,7 +24,7 @@ namespace RandomCensures
         /// <param name="voteValues">tableau de string comprenant toutes les valeurs possibles pour le vote</param>
         /// <param name="timerInSeconde">Durée pendant il sera possible de voter
         /// mis à 120secondes (2minutes) si aucune valeur</param>
-        public Vote(Stream OriginBot, string[] voteValues, int timerInSeconde)
+        public Vote(Bot OriginBot, string[] voteValues, int timerInSeconde)
         {
             this.OriginBot = OriginBot;
             this.voteValues = voteValues;
@@ -61,6 +61,8 @@ namespace RandomCensures
                 OriginBot.SendMessage("vote", message);
             }
             started = true;
+            message = "Pour participer tapez \"!vote \" avec le numéro de votre choix";
+            OriginBot.SendMessage("vote", message);
             resetEvent.Set();
         }
 
@@ -83,6 +85,8 @@ namespace RandomCensures
                 OriginBot.SendMessage("vote", message);
             }
             started = true;
+            message = "Pour participer tapez \"!vote \" avec le numéro de votre choix";
+            OriginBot.SendMessage("vote", message);
             resetEvent.Set();
         }
 

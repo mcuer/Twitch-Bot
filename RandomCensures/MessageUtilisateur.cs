@@ -9,7 +9,7 @@ namespace RandomCensures
     /// <summary>
     /// Class facilitant la vérification du flood
     /// </summary>
-    class MessageUtilisateur
+    public class MessageUtilisateur
     {
         public string speaker { get; set; }
         public int nbMessage { get; set; }

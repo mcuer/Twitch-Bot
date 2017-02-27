@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace RandomCensures
 {
-    class Cadeau
+    class Reward
     {
         private AutoResetEvent resetEvent;
         private Thread thread;
         private Random rand;
         private List<string> participant { get; set; }
-        private Stream OriginBot { get; set; }
+        private Bot OriginBot { get; set; }
         private int timerInSeconde { get; set; }
         public bool started { get; set; }
 
@@ -25,7 +25,7 @@ namespace RandomCensures
         /// <param name="voteValues">tableau de string comprenant toutes les valeurs possibles pour le vote</param>
         /// <param name="timerInSeconde">Durée pendant il sera possible de participer
         /// mis à 120secondes (2minutes) si aucune valeur</param>
-        public Cadeau(Stream OriginBot, int timerInSeconde)
+        public Reward(Bot OriginBot, int timerInSeconde)
         {
             this.OriginBot = OriginBot;
             rand = new Random();
@@ -46,11 +46,11 @@ namespace RandomCensures
         /// <summary>
         /// Démmarre la participation
         /// </summary>
-        public void cadeauStart()
+        public void startReward()
         {
             string message = "Une récompense est mise en jeu!";
             OriginBot.SendMessage("cadeau", message);
-            message = "Pour participer envoyer un message commençant par '!participe'!";
+            message = "Pour participer envoyer un message commençant par \"!reward\"!";
             OriginBot.SendMessage("cadeau", message);
             started = true;
             resetEvent.Set();
@@ -60,7 +60,7 @@ namespace RandomCensures
         /// Surcharge de la méthode de démmarrage de la participation en spécifiant une durée
         /// </summary>
         /// <param name="timerInSeconds">Durée pendant il sera possible de participer</param>
-        public void cadeauStart(int timerInSeconds)
+        public void startReward(int timerInSeconds)
         {
             if (timerInSeconde > 0)
             {
@@ -68,7 +68,7 @@ namespace RandomCensures
             }
             string message = "Une récompense est mise en jeu!";
             OriginBot.SendMessage("cadeau", message);
-            message = "Pour participer envoyer un message commençant par '!participe'!";
+            message = "Pour participer envoyer un message commençant par \"!reward\"!";
             OriginBot.SendMessage("cadeau", message);
             started = true;
             resetEvent.Set();
@@ -78,7 +78,7 @@ namespace RandomCensures
         /// Ajoute une participation
         /// </summary>
         /// <param name="partcipant">est le nom(pseudo) de la personne qui participer</param>
-        public void cadeauAdd(string partcipant) 
+        public void addParticipant(string partcipant) 
         {
             if (!this.participant.Contains(partcipant))
             {
@@ -89,7 +89,7 @@ namespace RandomCensures
         /// <summary>
         /// Arrete la participation en cours, et affiche le gagnant
         /// </summary>
-        public void cadeauStop()
+        public void stopReward()
         {
             string message = "La participation pour la récompense est terminé!";
             OriginBot.SendMessage("cadeau", message);
@@ -105,7 +105,7 @@ namespace RandomCensures
         {
             resetEvent.WaitOne();
             Thread.Sleep(timerInSeconde * 1000);
-            this.cadeauStop();
+            this.stopReward();
         }
 
     }

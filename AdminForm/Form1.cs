@@ -22,13 +22,13 @@ namespace AdminForm
         private bool connexion = false;
         private bool pause = true;
         private bool voteStarted = false;
-        private RandomCensures.Stream str;
+        private Bot str;
 
 
         public Form1()
         {
             InitializeComponent();
-            str = new RandomCensures.Stream();
+            str = new Bot();
         }
 
         /// <summary>
