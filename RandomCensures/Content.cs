@@ -141,19 +141,31 @@ namespace RandomCensures
             return false;
         }
 
+        /// <summary>
+        /// Test si le message commence par une forme de "!hi"
+        /// </summary>
+        /// <param name="message">Le message à tester</param>
         private static bool isHi(string message)
         {
             return (message.StartsWith("!hi") || message.StartsWith("!Hi") || message.StartsWith("!HI"));
         }
 
+        /// <summary>
+        /// Test si le message commence par une forme de "!vote"
+        /// </summary>
+        /// <param name="message">Le message à tester</param>
         private static bool isVote(string message)
         {
-            return (message.StartsWith("!vote") || message.StartsWith("!Vote"));
+            return (message.StartsWith("!vote") || message.StartsWith("!Vote") || message.StartsWith("!VOTE"));
         }
 
+        /// <summary>
+        /// Test si le message commence par une forme de "!reward"
+        /// </summary>
+        /// <param name="message">Le message à tester</param>
         private static bool isReward(string message)
         {
-            return (message.StartsWith("!vote") || message.StartsWith("!Vote"));
+            return (message.StartsWith("!reward") || message.StartsWith("!Reward") || message.StartsWith("!REWARD"));
         }
     }
 }
