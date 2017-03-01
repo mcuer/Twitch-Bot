@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Timers;
+using RandomCensures.Functionalities;
 
 namespace RandomCensures
 {
@@ -23,9 +23,10 @@ namespace RandomCensures
         private DateTime lastMessage { get; set; }
         private Queue<string> sendMessageQueue { get;set; }
         private int wait { get; set; }
-        public List<MessageUtilisateur> lMessageUtilisateur { get; set; }
         private List<IChatCommandMod> chatProcessors;
-        private Reward cadeau;
+        public Reward cadeau;
+
+        private FunctionalityList Functionalities { get; set; }
 
         private string chatMessagePrefix
         {
@@ -39,19 +40,10 @@ namespace RandomCensures
         /// Variable de mise à jour de l'accessibilité du chat
         /// </summary>
         public bool member { get; set; }
-        /// <summary>
-        /// Variable d'activation de l'anti flood
-        /// </summary>
-        public bool antiFlood { get; set; }
-        /// <summary>
-        /// Variable contenant le nombre de message autorisé par période de 10s
-        /// </summary>
-        public int floodLimit { get; set; }
 
         public Bot()
         {
             this.cadeau = new RandomCensures.Reward(this, 0);
-            this.lMessageUtilisateur = new List<MessageUtilisateur>();
             this.tcpClient = new TcpClient();
             sendMessageQueue = new Queue<string>();
             this.chatCommandId = "PRIVMSG";
@@ -69,6 +61,9 @@ namespace RandomCensures
             }
 
             chatProcessors = new List<IChatCommandMod>();
+
+            Functionalities = FunctionalityList.CreateAllFunctionalities(this);
+            Functionalities.FindByType<FloodFunctionality>().IsActive = false;
         }
         
         /// <summary>
@@ -227,70 +222,29 @@ namespace RandomCensures
         /// </summary>
         /// <param name="speaker">Pseudo de l'auteur du message</param>
         /// <param name="message">Son message</param>
-        private void ReceiveMessage (string speaker, string message)
+        private void ReceiveMessage(string speaker, string text)
         {
             if (!enPause)
             {
-                bool isAdmin = speaker == userName;
-                switch (Content.isVerified(this, speaker, message, antiFlood, floodLimit, isAdmin))
+                return;
+            }
+
+            bool isAdmin = speaker == userName;
+            Message message = Message.Parse(speaker, isAdmin, text);
+            Functionality functionality = Functionalities.FindMatch(message);
+            if (functionality != null)
+            {
+                functionality.ProceedWith(message);
+            }
+            else
+            {
+                foreach (var processor in chatProcessors)
                 {
-                    case Content.Verification.BannedWord:
-                        SendMessage("BannedWord", speaker);
-                        break;
-                    case Content.Verification.Flood:
-                        SendMessage("Flood", speaker);
-                        break;
-                    case Content.Verification.Link:
-                        SendMessage("Link", speaker);
-                        break;
-                    case Content.Verification.OK:
-                        switch (Content.isCommand(message,isAdmin))
-                        {
-                            case Content.Command.Hi:
-                                SendMessage("!hi", $"Bonjour, {speaker}!");
-                                break;
-                            case Content.Command.Vote:
-                                int voteValues = -1;
-                                try
-                                {
-                                    voteValues = Convert.ToInt16(message.Split(' ')[1]);
-                                }
-                                catch{}
-                                if (voteValues > 0)
-                                {
-                                    vote.voteAdd(speaker, voteValues);
-                                }
-                                break;
-                            case Content.Command.Reward:
-                                if (cadeau.started)
-                                {
-                                    cadeau.addParticipant(speaker);
-                                }
-                                break;
-                            case Content.Command.AdminReward:
-                                string[] splitMessage = message.Split(' ');
-                                if (splitMessage[1].Equals("start"))
-                                {
-                                    cadeau.startReward();
-                                }
-                                else
-                                if (splitMessage[1].Equals("stop"))
-                                {
-                                    cadeau.stopReward();
-                                }
-                                break;
-                            case Content.Command.None:
-                                foreach (var processor in chatProcessors)
-                                {
-                                    var result = processor.ProcessMessage(speaker, message);
-                                    if (result != null)
-                                    {
-                                        SendMessage("Mods", result);
-                                    }
-                                }
-                                break;
-                        }
-                        break;
+                    var result = processor.ProcessMessage(speaker, text);
+                    if (result != null)
+                    {
+                        SendMessage("Mods", result);
+                    }
                 }
             }
         }
@@ -342,8 +296,9 @@ namespace RandomCensures
         /// <param name="floodLimit">Limite de message de l'anti flood</param>
         public void setAntiflood(bool antiFlood, int floodLimit)
         {
-            this.antiFlood = antiFlood;
-            this.floodLimit = floodLimit;
+            FloodFunctionality functionality= Functionalities.FindByType<FloodFunctionality>();
+            functionality.IsActive = antiFlood;
+            functionality.LimitCount = floodLimit;
         }
     }
 }

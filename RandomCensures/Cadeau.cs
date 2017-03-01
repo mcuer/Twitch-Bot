@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RandomCensures
 {
-    class Reward
+    public class Reward
     {
         private AutoResetEvent resetEvent;
         private Thread thread;

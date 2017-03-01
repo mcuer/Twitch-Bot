@@ -41,8 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cadeau.cs" />
-    <Compile Include="Content.cs" />
+    <Compile Include="Functionalities\CommandFunctionality.cs" />
+    <Compile Include="Functionalities\FloodFunctionality.cs" />
+    <Compile Include="Functionalities\Functionality.cs" />
+    <Compile Include="Functionalities\FunctionalityList.cs" />
+    <Compile Include="Functionalities\InsultFunctionality.cs" />
+    <Compile Include="Functionalities\LinkFunctionality.cs" />
     <Compile Include="IChatCommandMod.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="MessageUtilisateur.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
