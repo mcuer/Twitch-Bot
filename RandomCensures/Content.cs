@@ -45,6 +45,11 @@ namespace RandomCensures
             return Verification.OK;
         }
 
+        /// <summary>
+        /// Utilise les méthodes isHi, isVote, isReward pour tester si les messages sont des commandes
+        /// </summary>
+        /// <param name="message">Le message à vérifier</param>
+        /// <param name="isAdmin">Défini si l'auteur du message est un admin ou non</param>
         public static Command isCommand(string message, bool isAdmin)
         {
             if (isAdmin)
