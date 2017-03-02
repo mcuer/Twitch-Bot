@@ -23,7 +23,7 @@ namespace RandomCensures
         /// <param name="isAdmin">Défini si l'auteur du message est un admin ou non</param>
         public static Verification isVerified(Bot Origin, string speaker, string message, bool antiFlood, int floodLimit, bool isAdmin)
         {
-            if (isAdmin)
+            if (!isAdmin)
             {
                 if (antiFlood)
                 {

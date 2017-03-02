@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using RandomCensures;
 using System.Diagnostics;
 using System.IO;
+using System.Configuration;
 
 namespace AdminForm
 {
@@ -29,6 +30,8 @@ namespace AdminForm
         {
             InitializeComponent();
             str = new Bot();
+            uNameTB.Text = ConfigurationManager.AppSettings["UserName"];
+            oAuthTB.Text = ConfigurationManager.AppSettings["Token"];
         }
 
         /// <summary>
@@ -107,7 +110,7 @@ namespace AdminForm
             }
             else
             {
-                str.Dispose();
+                str.Disconnect();
                 connexion = false;
                 this.pauseBT_MouseClick(sender, e);
                 connexionBT.Text = "Connexion";
@@ -315,7 +318,7 @@ namespace AdminForm
         /// </summary>
         private void btLancerVote_MouseClick(object sender, MouseEventArgs e)
         {
-            if (pause != true)
+            if (!pause && !voteStarted)
             {
                 string[] voteValues = new string[lbVote.Items.Count];
                 for (int i = 0; i < lbVote.Items.Count; i++)

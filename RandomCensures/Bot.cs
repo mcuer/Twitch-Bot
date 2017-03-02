@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Timers;
+using System.Diagnostics;
+using System.Threading;
 
 namespace RandomCensures
 {
@@ -12,8 +14,8 @@ namespace RandomCensures
     {
         public Vote vote;
         private bool enPause;
-        private Timer timer;
-        private StreamReader reader { get; set; }
+        private System.Timers.Timer timer;
+        //private StreamReader reader { get; set; }
         private StreamWriter writer { get; set; }
         private string oAuth { get; set; }
         private string chatCommandId { get; set; }
@@ -26,6 +28,9 @@ namespace RandomCensures
         public List<MessageUtilisateur> lMessageUtilisateur { get; set; }
         private List<IChatCommandMod> chatProcessors;
         private Reward cadeau;
+        private Thread listeningThread;
+        private bool stopListening;
+        private AutoResetEvent listeningThreadEvent;
 
         private string chatMessagePrefix
         {
@@ -52,9 +57,10 @@ namespace RandomCensures
         {
             this.cadeau = new RandomCensures.Reward(this, 0);
             this.lMessageUtilisateur = new List<MessageUtilisateur>();
-            this.tcpClient = new TcpClient();
+            //this.tcpClient = new TcpClient();
             sendMessageQueue = new Queue<string>();
             this.chatCommandId = "PRIVMSG";
+            listeningThreadEvent = new AutoResetEvent(false);
 
             foreach (var file in Directory.EnumerateFiles("./Mods", ".dll"))
             {
@@ -78,25 +84,32 @@ namespace RandomCensures
         /// <param name="oAuth">oAuth de l'utilisateur</param>
         public void Init (string uName, string oAuth )
         {
-            this.timer = new Timer();
-            timer.Elapsed += new ElapsedEventHandler(update);
-            timer.Interval = 100;
-            timer.Enabled = true;
             enPause = true;
             this.userName = uName.ToLower();
             this.channelName = this.userName;
             this.oAuth = oAuth;
-            Reconnect();
+            Connect();
         }
 
-        /// <summary>
-        /// Reconnexion du client en cas de perte
-        /// </summary>
-        public void Reconnect()
+        public bool IsConnected { get { return this.tcpClient != null; } }
+
+        public void Connect()
         {
+            if (IsConnected)
+            {
+                return;
+            }
+
             this.tcpClient = new TcpClient("irc.twitch.tv", 6667);
-            this.reader = new StreamReader(tcpClient.GetStream());
+            //this.reader = new StreamReader(tcpClient.GetStream(), System.Text.Encoding.UTF8);
             this.writer = new StreamWriter(tcpClient.GetStream());
+            stopListening = false;
+            listeningThread = new Thread(TryReceiveMessages);
+            this.timer = new System.Timers.Timer();
+            timer.Elapsed += new ElapsedEventHandler(update);
+            timer.Interval = 100;
+            timer.Enabled = true;
+            listeningThread.Start();
             writer.AutoFlush = true;
             writer.WriteLine(
                     "PASS " + oAuth + Environment.NewLine
@@ -106,6 +119,55 @@ namespace RandomCensures
             writer.WriteLine("JOIN #" + channelName);
             wait = 2;
             this.lastMessage = DateTime.Now;
+        }
+
+        public void Disconnect()
+        {
+            if (!IsConnected)
+            {
+                return;
+            }
+
+            if (this.tcpClient != null)
+            {
+                this.tcpClient.Close();
+                this.tcpClient = null;
+            }
+
+            if (this.writer != null)
+            {
+                this.writer.Close();
+                this.writer = null;
+            }
+
+            if (listeningThread != null)
+            {
+                listeningThreadEvent.Reset();
+                stopListening = true;
+                if (!listeningThreadEvent.WaitOne(3000))
+                {
+                    listeningThread.Abort();
+                }
+
+                listeningThread = null;
+            }
+
+            if (timer != null)
+            {
+                timer.Close();
+                timer = null;
+            }
+
+            //reader.Close();
+        }
+
+        /// <summary>
+        /// Reconnexion du client en cas de perte
+        /// </summary>
+        public void Reconnect()
+        {
+            Disconnect();
+            Connect();
         }
 
         /// <summary>
@@ -131,13 +193,20 @@ namespace RandomCensures
         /// </summary>
         private void update (object source, ElapsedEventArgs e)
         {
-            if (!tcpClient.Connected)
-            {
-                Reconnect();
-            }
+            //if (!tcpClient.Connected)
+            //{
+            //    Reconnect();
+            //}
 
-            TrySendingMessages();
-            TryReceiveMessages();
+            try
+            {
+                TrySendingMessages();
+                //TryReceiveMessages();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -168,7 +237,7 @@ namespace RandomCensures
                     var message = sendMessageQueue.Dequeue();
                     string messageAT = message.Split('@')[0];
                     string messageDot = message.Split(':')[2];
-                    Console.WriteLine(message);
+                    Debug.WriteLine(message);
                     writer.WriteLine($"{message}");
                     lastMessage = DateTime.Now;
                     wait = 2;
@@ -181,7 +250,7 @@ namespace RandomCensures
                         ) 
                     {
                         message = sendMessageQueue.Dequeue();
-                        Console.WriteLine(message);
+                        Debug.WriteLine(message);
                         writer.WriteLine($"{message}");
                         wait = 4;
                         return;
@@ -195,31 +264,42 @@ namespace RandomCensures
         /// </summary>
         private void TryReceiveMessages()
         {
-            if (tcpClient.Available > 0 || reader.Peek() >= 0)
+            using (var reader = new StreamReader(tcpClient.GetStream(), System.Text.Encoding.UTF8))
             {
-                try
+                while (!stopListening)
                 {
-                    var message = reader.ReadLine();
-                    Console.WriteLine(message);
-                    var iCollon = message.IndexOf(":", 1);
-                    if (iCollon > 0)
+                    if (tcpClient.Available > 0 || reader.Peek() >= 0)
                     {
-                        var command = message.Substring(1, iCollon);
-                        if (command.Contains(chatCommandId))
+                        try
                         {
-                            var iBang = command.IndexOf("!");
-                            if (iBang > 0)
+                            var message = reader.ReadLine();
+                            Debug.WriteLine(message);
+                            var iCollon = message.IndexOf(":", 1);
+                            if (iCollon > 0)
                             {
-                                var speaker = command.Substring(0, iBang);
-                                var chatMessage = message.Substring(iCollon + 1);
-                                ReceiveMessage(speaker, chatMessage);
+                                var command = message.Substring(1, iCollon);
+                                if (command.Contains(chatCommandId))
+                                {
+                                    var iBang = command.IndexOf("!");
+                                    if (iBang > 0)
+                                    {
+                                        var speaker = command.Substring(0, iBang);
+                                        var chatMessage = message.Substring(iCollon + 1);
+                                        ReceiveMessage(speaker, chatMessage);
+                                    }
+                                }
                             }
                         }
+                        catch (Exception e)
+                        {
+                        }
                     }
+
+                    Thread.Sleep(100);
                 }
-                catch (Exception e)
-                {
-                }
+
+                listeningThreadEvent.Set();
+                reader.Close();
             }
         }
 
@@ -326,14 +406,16 @@ namespace RandomCensures
             }
         }
 
+        
+
         /// <summary>
         /// Fermeture du bot
         /// </summary>
         public void Dispose()
         {
-            this.tcpClient.Close();
-            writer.Close();
-            reader.Close();
+            Disconnect();
+
+            
         }
 
         /// <summary>
@@ -346,5 +428,6 @@ namespace RandomCensures
             this.antiFlood = antiFlood;
             this.floodLimit = floodLimit;
         }
+        
     }
 }
