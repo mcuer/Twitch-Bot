@@ -10,7 +10,7 @@ namespace RandomCensures
     {
         AutoResetEvent resetEvent;
         Thread thread;
-        private List<string> votant { get; set; }
+        private List<Votant> votants { get; set; }
         private string[] voteValues { get; set; }
         private Bot OriginBot { get; set; }
         private int timerInSeconde { get; set; }
@@ -28,7 +28,7 @@ namespace RandomCensures
         {
             this.OriginBot = OriginBot;
             this.voteValues = voteValues;
-            this.votant = new List<String>();
+            this.votants = new List<Votant>();
             started = false;
             this.voteResults = new int[voteValues.Count()];
             for(int i = 0; i<voteResults.Count(); i++)
@@ -93,21 +93,23 @@ namespace RandomCensures
         /// <summary>
         /// Ajoute un vote
         /// </summary>
-        /// <param name="votant">est le nom(pseudo) de la personne qui vote</param>
+        /// <param name="speaker">est le nom(pseudo) de la personne qui vote</param>
         /// <param name="voteValue">est l'index correspondant à son choix pour le vote</param>
-        public void voteAdd(string votant, int voteValue)
+        public void voteAdd(string speaker, int voteValue)
         {
             bool inList = false;
-            foreach (string nom in this.votant)
+            foreach (Votant votant in this.votants)
             {
-                if (nom.Equals(votant))
+                if (votant.speaker.Equals(speaker))
                 {
+                    this.voteResults[votant.voteValue-1]--;
+                    this.voteResults[voteValue-1]++;
                     inList = true;
                 }
             }
             if (!inList)
             {
-                this.votant.Add(votant);
+                this.votants.Add(new Votant(speaker, voteValue));
                 this.voteResults[voteValue-1]++;
             }
         }
