@@ -155,6 +155,7 @@ namespace RandomCensures
         {
             enPause = true;
         }
+
         /// <summary>
         /// Envoie les messages au chat
         /// </summary>
