@@ -29,6 +29,12 @@ namespace AdminForm
         {
             InitializeComponent();
             str = new Bot();
+            str.OnMessageReceived += Str_OnMessageReceived;
+        }
+
+        private void Str_OnMessageReceived(object sender, string e)
+        {
+            Console.WriteLine(e);
         }
 
         /// <summary>

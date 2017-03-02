@@ -28,6 +28,8 @@ namespace RandomCensures
 
         private FunctionalityList Functionalities { get; set; }
 
+        public event EventHandler<string> OnMessageReceived = null;
+
         private string chatMessagePrefix
         {
             get
@@ -194,7 +196,8 @@ namespace RandomCensures
                 try
                 {
                     var message = reader.ReadLine();
-                    Console.WriteLine(message);
+                    OnMessageReceived?.Invoke(this, message);
+
                     var iCollon = message.IndexOf(":", 1);
                     if (iCollon > 0)
                     {
