@@ -31,9 +31,7 @@ namespace AdminForm
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label1 = new System.Windows.Forms.Label();
             this.LbMotBanni = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.CbUniqAbo = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -54,44 +52,35 @@ namespace AdminForm
             this.button1 = new System.Windows.Forms.Button();
             this.pauseBT = new System.Windows.Forms.Button();
             this.lbVote = new System.Windows.Forms.ListBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.btAjoutVoteValue = new System.Windows.Forms.Button();
             this.btSupprVoteValue = new System.Windows.Forms.Button();
             this.btLancerVote = new System.Windows.Forms.Button();
             this.btReinitVote = new System.Windows.Forms.Button();
             this.tbStopVote = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 88);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Mot Banni";
             // 
             // LbMotBanni
             // 
             this.LbMotBanni.FormattingEnabled = true;
-            this.LbMotBanni.Location = new System.Drawing.Point(15, 112);
+            this.LbMotBanni.Location = new System.Drawing.Point(6, 49);
             this.LbMotBanni.Name = "LbMotBanni";
             this.LbMotBanni.Size = new System.Drawing.Size(191, 160);
             this.LbMotBanni.TabIndex = 1;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(239, 88);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(103, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Message Periodique";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 286);
+            this.label3.Location = new System.Drawing.Point(12, 353);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 13);
             this.label3.TabIndex = 4;
@@ -100,7 +89,7 @@ namespace AdminForm
             // CbUniqAbo
             // 
             this.CbUniqAbo.AutoSize = true;
-            this.CbUniqAbo.Location = new System.Drawing.Point(139, 285);
+            this.CbUniqAbo.Location = new System.Drawing.Point(139, 352);
             this.CbUniqAbo.Name = "CbUniqAbo";
             this.CbUniqAbo.Size = new System.Drawing.Size(15, 14);
             this.CbUniqAbo.TabIndex = 5;
@@ -110,7 +99,7 @@ namespace AdminForm
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 319);
+            this.label4.Location = new System.Drawing.Point(12, 386);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 13);
             this.label4.TabIndex = 6;
@@ -119,7 +108,7 @@ namespace AdminForm
             // CbAntiFlood
             // 
             this.CbAntiFlood.AutoSize = true;
-            this.CbAntiFlood.Location = new System.Drawing.Point(139, 318);
+            this.CbAntiFlood.Location = new System.Drawing.Point(139, 385);
             this.CbAntiFlood.Name = "CbAntiFlood";
             this.CbAntiFlood.Size = new System.Drawing.Size(15, 14);
             this.CbAntiFlood.TabIndex = 7;
@@ -129,7 +118,7 @@ namespace AdminForm
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(174, 319);
+            this.label5.Location = new System.Drawing.Point(174, 386);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 13);
             this.label5.TabIndex = 8;
@@ -137,7 +126,7 @@ namespace AdminForm
             // 
             // TbNbMess
             // 
-            this.TbNbMess.Location = new System.Drawing.Point(271, 312);
+            this.TbNbMess.Location = new System.Drawing.Point(271, 379);
             this.TbNbMess.Name = "TbNbMess";
             this.TbNbMess.Size = new System.Drawing.Size(100, 20);
             this.TbNbMess.TabIndex = 9;
@@ -147,7 +136,7 @@ namespace AdminForm
             // 
             // Bplus
             // 
-            this.Bplus.Location = new System.Drawing.Point(348, 83);
+            this.Bplus.Location = new System.Drawing.Point(8, 19);
             this.Bplus.Name = "Bplus";
             this.Bplus.Size = new System.Drawing.Size(64, 23);
             this.Bplus.TabIndex = 10;
@@ -164,7 +153,7 @@ namespace AdminForm
             // LbMessagePeriodique
             // 
             this.LbMessagePeriodique.FormattingEnabled = true;
-            this.LbMessagePeriodique.Location = new System.Drawing.Point(242, 112);
+            this.LbMessagePeriodique.Location = new System.Drawing.Point(8, 48);
             this.LbMessagePeriodique.Name = "LbMessagePeriodique";
             this.LbMessagePeriodique.Size = new System.Drawing.Size(240, 160);
             this.LbMessagePeriodique.TabIndex = 3;
@@ -224,7 +213,7 @@ namespace AdminForm
             // 
             // btAjouter
             // 
-            this.btAjouter.Location = new System.Drawing.Point(73, 83);
+            this.btAjouter.Location = new System.Drawing.Point(6, 20);
             this.btAjouter.Name = "btAjouter";
             this.btAjouter.Size = new System.Drawing.Size(64, 23);
             this.btAjouter.TabIndex = 18;
@@ -234,7 +223,7 @@ namespace AdminForm
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(143, 83);
+            this.button2.Location = new System.Drawing.Point(76, 20);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(64, 23);
             this.button2.TabIndex = 19;
@@ -244,7 +233,7 @@ namespace AdminForm
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(418, 83);
+            this.button1.Location = new System.Drawing.Point(78, 19);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(64, 23);
             this.button1.TabIndex = 20;
@@ -265,23 +254,14 @@ namespace AdminForm
             // lbVote
             // 
             this.lbVote.FormattingEnabled = true;
-            this.lbVote.Location = new System.Drawing.Point(518, 112);
+            this.lbVote.Location = new System.Drawing.Point(6, 48);
             this.lbVote.Name = "lbVote";
             this.lbVote.Size = new System.Drawing.Size(214, 160);
             this.lbVote.TabIndex = 22;
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(515, 88);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(70, 13);
-            this.label8.TabIndex = 23;
-            this.label8.Text = "Vote possible";
-            // 
             // btAjoutVoteValue
             // 
-            this.btAjoutVoteValue.Location = new System.Drawing.Point(598, 83);
+            this.btAjoutVoteValue.Location = new System.Drawing.Point(86, 19);
             this.btAjoutVoteValue.Name = "btAjoutVoteValue";
             this.btAjoutVoteValue.Size = new System.Drawing.Size(64, 23);
             this.btAjoutVoteValue.TabIndex = 24;
@@ -291,7 +271,7 @@ namespace AdminForm
             // 
             // btSupprVoteValue
             // 
-            this.btSupprVoteValue.Location = new System.Drawing.Point(668, 83);
+            this.btSupprVoteValue.Location = new System.Drawing.Point(156, 20);
             this.btSupprVoteValue.Name = "btSupprVoteValue";
             this.btSupprVoteValue.Size = new System.Drawing.Size(64, 23);
             this.btSupprVoteValue.TabIndex = 25;
@@ -301,7 +281,7 @@ namespace AdminForm
             // 
             // btLancerVote
             // 
-            this.btLancerVote.Location = new System.Drawing.Point(598, 278);
+            this.btLancerVote.Location = new System.Drawing.Point(86, 214);
             this.btLancerVote.Name = "btLancerVote";
             this.btLancerVote.Size = new System.Drawing.Size(64, 23);
             this.btLancerVote.TabIndex = 26;
@@ -311,7 +291,7 @@ namespace AdminForm
             // 
             // btReinitVote
             // 
-            this.btReinitVote.Location = new System.Drawing.Point(518, 278);
+            this.btReinitVote.Location = new System.Drawing.Point(6, 214);
             this.btReinitVote.Name = "btReinitVote";
             this.btReinitVote.Size = new System.Drawing.Size(68, 23);
             this.btReinitVote.TabIndex = 27;
@@ -321,7 +301,7 @@ namespace AdminForm
             // 
             // tbStopVote
             // 
-            this.tbStopVote.Location = new System.Drawing.Point(668, 278);
+            this.tbStopVote.Location = new System.Drawing.Point(156, 214);
             this.tbStopVote.Name = "tbStopVote";
             this.tbStopVote.Size = new System.Drawing.Size(64, 23);
             this.tbStopVote.TabIndex = 28;
@@ -329,44 +309,112 @@ namespace AdminForm
             this.tbStopVote.UseVisualStyleBackColor = true;
             this.tbStopVote.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbStopVote_MouseClick);
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(6, 215);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(98, 28);
+            this.button3.TabIndex = 29;
+            this.button3.Text = "Ouvrir";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button3_MouseClick);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Fichier texte|*.txt";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.btAjouter);
+            this.groupBox1.Controls.Add(this.LbMotBanni);
+            this.groupBox1.Location = new System.Drawing.Point(12, 76);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(209, 252);
+            this.groupBox1.TabIndex = 30;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Mot(s) banni(s)";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.Bplus);
+            this.groupBox2.Controls.Add(this.LbMessagePeriodique);
+            this.groupBox2.Location = new System.Drawing.Point(227, 76);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(259, 252);
+            this.groupBox2.TabIndex = 31;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Message(s) périodique(s)";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.tbStopVote);
+            this.groupBox3.Controls.Add(this.btReinitVote);
+            this.groupBox3.Controls.Add(this.btLancerVote);
+            this.groupBox3.Controls.Add(this.btSupprVoteValue);
+            this.groupBox3.Controls.Add(this.btAjoutVoteValue);
+            this.groupBox3.Controls.Add(this.lbVote);
+            this.groupBox3.Location = new System.Drawing.Point(492, 76);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(227, 252);
+            this.groupBox3.TabIndex = 32;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Vote";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "Possibilitée(s)";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(171, 352);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 33;
+            this.label2.Text = "label2";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(744, 354);
-            this.Controls.Add(this.tbStopVote);
-            this.Controls.Add(this.btReinitVote);
-            this.Controls.Add(this.btLancerVote);
-            this.Controls.Add(this.btSupprVoteValue);
-            this.Controls.Add(this.btAjoutVoteValue);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.lbVote);
+            this.ClientSize = new System.Drawing.Size(732, 412);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pauseBT);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.btAjouter);
             this.Controls.Add(this.connexionBT);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.oAuthTB);
             this.Controls.Add(this.uNameTB);
-            this.Controls.Add(this.Bplus);
             this.Controls.Add(this.TbNbMess);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CbAntiFlood);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.CbUniqAbo);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.LbMessagePeriodique);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.LbMotBanni);
-            this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -379,8 +427,6 @@ namespace AdminForm
         private System.Windows.Forms.CheckBox CbUniqAbo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox CbAntiFlood;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox TbNbMess;
         private System.Windows.Forms.Button Bplus;
@@ -397,12 +443,18 @@ namespace AdminForm
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button pauseBT;
         private System.Windows.Forms.ListBox lbVote;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btAjoutVoteValue;
         private System.Windows.Forms.Button btSupprVoteValue;
         private System.Windows.Forms.Button btLancerVote;
         private System.Windows.Forms.Button btReinitVote;
         private System.Windows.Forms.Button tbStopVote;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

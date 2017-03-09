@@ -31,6 +31,7 @@ namespace RandomCensures
         private Thread listeningThread;
         private bool stopListening;
         private AutoResetEvent listeningThreadEvent;
+        private string insultes { get; set; }
 
         private string chatMessagePrefix
         {
@@ -61,7 +62,6 @@ namespace RandomCensures
             sendMessageQueue = new Queue<string>();
             this.chatCommandId = "PRIVMSG";
             listeningThreadEvent = new AutoResetEvent(false);
-
             foreach (var file in Directory.EnumerateFiles("./Mods", ".dll"))
             {
                 var assembly = Assembly.LoadFile(file);

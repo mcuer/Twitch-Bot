@@ -24,7 +24,8 @@ namespace AdminForm
         private bool pause = true;
         private bool voteStarted = false;
         private Bot str;
-
+        private string insultesPath;
+        private string messagePerioPath;
 
         public Form1()
         {
@@ -124,6 +125,7 @@ namespace AdminForm
         private void Form1_Load(object sender, EventArgs e)
         {
             int i = 0;
+            insultesPath = "Insultes.txt";
             MotBanniUpdate();
             MessagePeriodiqueUpdate();
             ajouterInsultes = new FormAjout();
@@ -140,7 +142,7 @@ namespace AdminForm
         /// </summary>
         public void MotBanniUpdate()
         {
-            string sMot = File.ReadAllText("Insultes.txt");
+            string sMot = File.ReadAllText(insultesPath);
             string[] mots = sMot.Split(',');
             LbMotBanni.Items.Clear();
             foreach (string mot in mots)
@@ -172,7 +174,7 @@ namespace AdminForm
         {
             if (LbMotBanni.SelectedIndex >= 0)
             {
-                string sMot = File.ReadAllText("Insultes.txt");
+                string sMot = File.ReadAllText(insultesPath);
                 string[] mots = sMot.Split(',');
                     string motASupprimer = LbMotBanni.Items[LbMotBanni.SelectedIndex].ToString(); 
                 string tampList = "";
@@ -183,7 +185,7 @@ namespace AdminForm
                         tampList += "," + mot.TrimEnd('\n').TrimStart('\n'); 
                     }
                 }
-                File.WriteAllText("Insultes.txt", tampList.TrimEnd(',').TrimStart(','));
+                File.WriteAllText(insultesPath, tampList.TrimEnd(',').TrimStart(','));
                 this.MotBanniUpdate();
             }
         }
@@ -197,7 +199,7 @@ namespace AdminForm
             DialogResult diag = ajouterInsultes.ShowDialog();
             if (diag == DialogResult.OK)
             {
-                string sMot = File.ReadAllText("Insultes.txt");
+                string sMot = File.ReadAllText(insultesPath);
                 string[] mots = sMot.Split(',');
                 string ajoutMot = ajouterInsultes.getMots();
                 string[] splitAjoutMot = ajoutMot.Split(',');
@@ -220,7 +222,7 @@ namespace AdminForm
                         sMot += "," + trimedWord;
                     }
                 }
-                File.WriteAllText("Insultes.txt", sMot);
+                File.WriteAllText(insultesPath, sMot);
                 MotBanniUpdate();
             }
         }
@@ -370,6 +372,16 @@ namespace AdminForm
             {
                 str.vote.voteStop();
                 voteStarted = false;
+            }
+        }
+
+        private void button3_MouseClick(object sender, MouseEventArgs e)
+        {
+            DialogResult diag = openFileDialog1.ShowDialog();
+            if (diag == DialogResult.OK)
+            {
+                insultesPath = openFileDialog1.FileName;
+                this.MotBanniUpdate();
             }
         }
     }
