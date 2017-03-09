@@ -126,6 +126,7 @@ namespace AdminForm
         {
             int i = 0;
             insultesPath = "Insultes.txt";
+            messagePerioPath = "MessagesPerio.txt";
             MotBanniUpdate();
             MessagePeriodiqueUpdate();
             ajouterInsultes = new FormAjout();
@@ -157,7 +158,7 @@ namespace AdminForm
         /// </summary>
         public void MessagePeriodiqueUpdate()
         {
-            string sMot = File.ReadAllText("MessagesPerio.txt");
+            string sMot = File.ReadAllText(messagePerioPath);
             string[] mots = sMot.Split(',');
             LbMessagePeriodique.Items.Clear();
             foreach (string mot in mots)
@@ -236,7 +237,7 @@ namespace AdminForm
             DialogResult diag = ajouterMessagesPeriodique.ShowDialog();
             if (diag == DialogResult.OK)
             {
-                string sMot = File.ReadAllText("MessagesPerio.txt");
+                string sMot = File.ReadAllText(messagePerioPath);
                 string[] mots = sMot.Split(',');
                 string ajoutMot = ajouterMessagesPeriodique.getMessagesPerio();
                 string[] splitAjoutMot = ajoutMot.Split(',');
@@ -259,7 +260,7 @@ namespace AdminForm
                         sMot += "," + trimedWord;
                     }
                 }
-                File.WriteAllText("MessagesPerio.txt", sMot);
+                File.WriteAllText(messagePerioPath, sMot);
                 MessagePeriodiqueUpdate();
             }
         }
@@ -271,7 +272,7 @@ namespace AdminForm
         {
             if (LbMessagePeriodique.SelectedIndex >= 0)
             {
-                string sMessage = File.ReadAllText("MessagesPerio.txt");
+                string sMessage = File.ReadAllText(messagePerioPath);
                 string[] messages = sMessage.Split(',');
                 string messageASupprimer = LbMessagePeriodique.Items[LbMessagePeriodique.SelectedIndex].ToString();
                 string tampList = "";
@@ -282,7 +283,7 @@ namespace AdminForm
                         tampList += "," + message.TrimEnd('\n').TrimStart('\n');
                     }
                 }
-                File.WriteAllText("MessagesPerio.txt", tampList.TrimEnd(',').TrimStart(','));
+                File.WriteAllText(messagePerioPath, tampList.TrimEnd(',').TrimStart(','));
                 this.MessagePeriodiqueUpdate();
             }
         }
@@ -383,6 +384,17 @@ namespace AdminForm
                 insultesPath = openFileDialog1.FileName;
                 this.MotBanniUpdate();
             }
+        }
+
+        private void button4_MouseClick(object sender, MouseEventArgs e)
+        {
+            DialogResult diag = openFileDialog1.ShowDialog();
+            if (diag == DialogResult.OK)
+            {
+                messagePerioPath = openFileDialog1.FileName;
+                this.MessagePeriodiqueUpdate();
+            }
+            
         }
     }
 }
